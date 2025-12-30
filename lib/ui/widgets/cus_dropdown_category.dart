@@ -6,7 +6,8 @@ class CustomDropdownCategory extends StatelessWidget {
   final List<Category> categoryList;
   final ValueChanged<Category> onSelectCategory;
   final String? Function(Category?)? validator;
-  const CustomDropdownCategory({super.key, required this.categoryList, required this.onSelectCategory, required this.validator});
+  final Category? selectedCategory;
+  const CustomDropdownCategory({super.key, required this.categoryList, required this.onSelectCategory, required this.validator, this.selectedCategory});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class CustomDropdownCategory extends StatelessWidget {
         Text(language.category.toUpperCase(), style:const TextStyle(color: Colors.black),),
         const SizedBox(height: 10),
         DropdownButtonFormField<Category>(
+          initialValue: selectedCategory,
           icon: Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Icon(Icons.keyboard_arrow_down),

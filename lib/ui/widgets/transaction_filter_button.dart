@@ -7,7 +7,8 @@ import '../../l10n/app_localization.dart';
 class TransactionFilterButton extends StatefulWidget {
   final ValueChanged<TransactionType?> onPress;
   final bool isExistAll;
-  const TransactionFilterButton({super.key, required this.onPress, this.isExistAll = false});
+  final TransactionType? currentSelect;
+  const TransactionFilterButton({super.key, required this.onPress, this.isExistAll = false, this.currentSelect});
 
   @override
   State<TransactionFilterButton> createState() => _TransactionFilterButtonState();
@@ -18,7 +19,11 @@ class _TransactionFilterButtonState extends State<TransactionFilterButton> {
   @override
   void initState() {
     super.initState(); 
-    transactionType = widget.isExistAll ? null : TransactionType.income;
+    if(widget.currentSelect != null){
+      transactionType = widget.currentSelect;
+    }else{
+      transactionType = widget.isExistAll ? null : TransactionType.income;
+    }
   }
   void onPressed(TransactionType? type){
     setState(() {

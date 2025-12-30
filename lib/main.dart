@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import './l10n/app_localization.dart'; 
 import 'ui/screens/splash.dart';
 import 'ui/screens/home.dart';
-import 'ui/screens/add_Transaction.dart';
+import 'ui/screens/transaction_form.dart';
 import 'ui/screens/onboarding.dart';
 import 'ui/screens/onboarding.dart';
 import 'ui/screens/profile.dart';
