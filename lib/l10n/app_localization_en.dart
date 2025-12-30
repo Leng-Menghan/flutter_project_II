@@ -159,6 +159,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get health => 'Health';
 
   @override
+  String get tip => 'Tips';
+
+  @override
   String get other => 'Other';
 
   @override
@@ -271,4 +274,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectDate => 'Select Date';
+
+  @override
+  String get transaction => 'Transaction';
 }

@@ -398,6 +398,12 @@ abstract class AppLocalizations {
   /// **'Health'**
   String get health;
 
+  /// No description provided for @tip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips'**
+  String get tip;
+
   /// No description provided for @other.
   ///
   /// In en, this message translates to:
@@ -625,6 +631,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Date'**
   String get selectDate;
+
+  /// No description provided for @transaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction'**
+  String get transaction;
 }
 
 class _AppLocalizationsDelegate

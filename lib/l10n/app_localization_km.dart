@@ -159,6 +159,9 @@ class AppLocalizationsKm extends AppLocalizations {
   String get health => 'សុខភាព';
 
   @override
+  String get tip => 'ប្រាក់បន្ថែម';
+
+  @override
   String get other => 'ផ្សេងៗ';
 
   @override
@@ -271,4 +274,7 @@ class AppLocalizationsKm extends AppLocalizations {
 
   @override
   String get selectDate => 'ជ្រើសរើសកាលបរិច្ឆេទ';
+
+  @override
+  String get transaction => 'ប្រតិបត្តិការ';
 }

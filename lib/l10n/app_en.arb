@@ -49,6 +49,7 @@
   "furniture": "Furniture",
   "gift": "Gift",
   "health": "Health",
+  "tip": "Tips",
   "other": "Other",
   "pet": "Pet",
   "shopping": "Shopping",
@@ -86,5 +87,6 @@
   "enterTitle": "Enter Title",
   "selectCategory": "Select Category",
   "enterAmount": "Enter amount",
-  "selectDate": "Select Date"
+  "selectDate": "Select Date",
+  "transaction": "Transaction"
 }
