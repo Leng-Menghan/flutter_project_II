@@ -166,20 +166,41 @@ class User {
     }
   }
 
-  List<BudgetGoal> getBudgetGoal({int? year, int? month, Category? category}){
+  List<BudgetGoal> getBudgetGoal({int? year, int? month}){
     return budgetGoals.where((b) {
       if(year != null && b.year != year) return false;
       if (month != null && b.month != month) return false;
-      if (category != null && b.category != category) return false;
       return true;
     }).toList();
   }
 
-  double getTotalGoalAmount(List<BudgetGoal> budgetGoalList){
-    double total = 0;
-    for(BudgetGoal b in budgetGoalList){
-      total += b.goalAmount;
+  double getTotalGoal(int year, int month){
+    List<BudgetGoal> budgetGoals = getBudgetGoal(year: year, month: month);
+    double totalGoal = 0;
+    for (BudgetGoal goal in budgetGoals) {
+      totalGoal += goal.goalAmount;
     }
-    return total;
+    return totalGoal;
+  }
+
+  double getSpentCategory(int year, int month, Category category){
+    List<Transaction> transactionsList = getTransactions(year: year, month: month, category: category);
+    return getTotalAmountByType(transactionList: transactionsList,type: TransactionType.expense);
+  }
+
+  double getTotalSpent(int year, int month) {
+    List<BudgetGoal> budgetGoals = getBudgetGoal(year: year, month: month);
+    double totalSpent = 0;
+    for (BudgetGoal goal in budgetGoals) {
+      totalSpent += getSpentCategory(year, month, goal.category);
+    }
+    return totalSpent;
+  }
+
+  List<Category> getAvaliableCategories(int year, int month){
+    List<BudgetGoal> budgetGoals = getBudgetGoal(year: year, month: month);
+    List<Category> usedCategories = budgetGoals.map((g) => g.category).toList();
+    List<Category> avaliableCategories = Category.expenseCategories.where((c) => !usedCategories.contains(c)).toList();
+    return avaliableCategories;
   }
 }
