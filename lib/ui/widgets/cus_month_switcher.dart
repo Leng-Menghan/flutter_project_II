@@ -4,8 +4,9 @@ import 'package:intl/intl.dart';
 class CustomMonthSwitcher extends StatelessWidget {
   final VoidCallback onNext;
   final VoidCallback onBack;
+  final bool isBig;
   final DateTime date;
-  const CustomMonthSwitcher({super.key, required this.onNext, required this.onBack, required this.date});
+  const CustomMonthSwitcher({super.key, required this.onNext, required this.onBack, required this.date, this.isBig = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,9 @@ class CustomMonthSwitcher extends StatelessWidget {
             size: 20,
           ),
         ),
+        isBig ? const Spacer() : const SizedBox(),
         SizedBox(width: 150, child: Text(DateFormat.yMMMM().format(date), textAlign: TextAlign.center, style: textTheme.titleLarge?.copyWith(color: colorTheme.onSurface))),
+        isBig ? const Spacer() : const SizedBox(),
         GestureDetector(
           onTap: onNext,               
           child: Icon(

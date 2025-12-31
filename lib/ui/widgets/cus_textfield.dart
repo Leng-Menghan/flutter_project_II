@@ -5,9 +5,10 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final String prefix;
   final bool islength;
+  final bool isNumInput;
   final TextEditingController text;
   final String? Function(String?)? validator;
-  const CustomTextField ({super.key, required this.label, required this.hintText, required this.text, this.prefix = "", this.islength = false, required this.validator});
+  const CustomTextField ({super.key, required this.label, required this.hintText, required this.text, this.prefix = "", this.islength = false, required this.validator, this.isNumInput = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,8 @@ class CustomTextField extends StatelessWidget {
         TextFormField(
           validator: validator,
           controller: text,
-          maxLength: islength ? null : 50,
+          maxLength: islength ? 50 : null,
+          keyboardType: isNumInput ? TextInputType.number : null,
           decoration: InputDecoration(
             prefixText: prefix,
             prefixStyle: TextStyle(color: Colors.black),
