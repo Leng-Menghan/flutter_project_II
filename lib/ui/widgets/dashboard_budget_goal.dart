@@ -36,14 +36,14 @@ class DashboardBudgetGoal extends StatelessWidget {
                       startDegreeOffset: -90,
                       sections: [
                         PieChartSectionData(
-                          value: spent / goal,
+                          value: (goal == 0 && spent == 0) ? 0 : (spent > goal) ? 100 : spent / goal ,
                           color: Colors.red,
                           radius: 20,
                           showTitle: false,
                           borderSide: BorderSide(color: Colors.white, width: 5)
                         ),
                         PieChartSectionData(
-                          value: remain / goal,
+                          value: (goal == 0 && spent == 0) ? 100 : (spent > goal) ? 0 : remain / goal,
                           color: Colors.blue,
                           radius: 20,
                           showTitle: false,
@@ -52,13 +52,16 @@ class DashboardBudgetGoal extends StatelessWidget {
                       ],
                     ),
                   ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Remain", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
-                    Text("\$ ${NumberFormat("#,##0.00").format(remain)}", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
-                  ],
-                )
+                  goal == 0 ? 
+                    Text("No Goal", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary))
+                    :
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(spent > goal ? "Over" : "Remain", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
+                        Text("\$ ${NumberFormat("#,##0.00").format(remain)}", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
+                      ],
+                    )
                 ],
               ),
             ),
@@ -89,14 +92,20 @@ class DashboardBudgetGoal extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 5),
-                    Text("\$ ${NumberFormat("#,##0.00").format(spent)}", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
+
+                    Text(
+                      "\$ ${NumberFormat("#,##0.00").format(spent)}",
+                      style: textTheme.headlineLarge?.copyWith(
+                        color: colorTheme.onPrimary,
+                      ),
+                    ),
                   ],
                 ),
               ],
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }

@@ -67,6 +67,11 @@ enum Category {
     backgroundColor: Colors.amber,
     label: "Travel",
   ),
+  otherExpense(
+    icon: "assets/expenseIcons/other.png",
+    backgroundColor: Color(0xFF616161),
+    label: "Others",
+  ),
   // Income
   allowance(
     icon: "assets/incomeIcons/allowance.png",
@@ -108,11 +113,13 @@ enum Category {
     backgroundColor: Colors.blueAccent,
     label: "Tips",
   ), // Medium Green
-  other(
-    icon: "assets/expenseIcons/other.png",
+  otherIncome(
+    icon: "assets/incomeIcons/other.png",
     backgroundColor: Color(0xFF616161),
     label: "Others",
   );
+
+  
 
   final String icon;
   final Color backgroundColor;
@@ -132,7 +139,7 @@ enum Category {
     lottery,
     salary,
     tip,
-    other,
+    otherIncome,
   ];
 
   static List<Category> get expenseCategories => [
@@ -149,5 +156,6 @@ enum Category {
     shopping,
     transportation,
     travel,
+    otherExpense
   ];
 }
