@@ -88,5 +88,12 @@
   "selectCategory": "ជ្រើសរើសប្រភេទ",
   "enterAmount": "បញ្ចូលចំនួនទឹកប្រាក់",
   "selectDate": "ជ្រើសរើសកាលបរិច្ឆេទ",
-   "transaction": "ប្រតិបត្តិការ"
+   "transaction": "ប្រតិបត្តិការ",
+   "remain" : "នៅសល់់",
+   "over" : "លើសចំនួន",
+   "noGoal" : "គ្មានគោលដៅ",
+   "noBudgetGoalYet" : "មិនទាន់មានគោលដៅនៅឡើយ",
+   "budgetGoalDeleted" : "គោលដៅត្រូវបានលុប",
+    "undo" : "ធ្វើឡើងវិញ",
+    "createBudgetGoal" : "បង្កើតគោលដៅ",
 }

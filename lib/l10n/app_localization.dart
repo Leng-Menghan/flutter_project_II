@@ -425,7 +425,7 @@ abstract class AppLocalizations {
   /// No description provided for @transportation.
   ///
   /// In en, this message translates to:
-  /// **'Transportataion'**
+  /// **'Transportation'**
   String get transportation;
 
   /// No description provided for @travel.
@@ -637,6 +637,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Transaction'**
   String get transaction;
+
+  /// No description provided for @remain.
+  ///
+  /// In en, this message translates to:
+  /// **'Remain'**
+  String get remain;
+
+  /// No description provided for @over.
+  ///
+  /// In en, this message translates to:
+  /// **'Over'**
+  String get over;
+
+  /// No description provided for @noGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'No Goal'**
+  String get noGoal;
+
+  /// No description provided for @noBudgetGoalYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No Budget Goal Yet'**
+  String get noBudgetGoalYet;
+
+  /// No description provided for @budgetGoalDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Goal Deleted'**
+  String get budgetGoalDeleted;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
+
+  /// No description provided for @createBudgetGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Budget Goal'**
+  String get createBudgetGoal;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fundamental_flutter_project/l10n/app_localization.dart';
 import 'package:fundamental_flutter_project/ui/widgets/cus_outline_button.dart';
 import '../widgets/cus_textfield.dart';
 import '../../models/category.dart';
@@ -78,6 +81,7 @@ class _CreateBudgetState extends State<CreateBudget> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final textTheme = theme.textTheme;
+    final language = AppLocalizations.of(context)!;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -88,7 +92,7 @@ class _CreateBudgetState extends State<CreateBudget> {
           icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
         ),
         title: Text(
-          "Create Budget Goal",
+          language.createBudgetGoal,
           style: textTheme.displaySmall?.copyWith(color: colors.onPrimary),
         ),
         centerTitle: true,
@@ -112,8 +116,8 @@ class _CreateBudgetState extends State<CreateBudget> {
               child: Column(
                 children: [
                   CustomTextField(
-                    label: "AMOUNT",
-                    hintText: "Enter Amount",
+                    label: language.amount,
+                    hintText: language.enterAmount,
                     text: _amountController,
                     validator: validateAmount,
                     isNumInput: true,
@@ -132,7 +136,7 @@ class _CreateBudgetState extends State<CreateBudget> {
             ),
             const Spacer(),
             CustomOutlineButton(
-              name: "Save",
+              name: language.save,
               onPress: _saveBudget,
               isLong: true,
             ),

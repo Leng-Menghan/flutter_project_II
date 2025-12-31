@@ -171,7 +171,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shopping => 'Shopping';
 
   @override
-  String get transportation => 'Transportataion';
+  String get transportation => 'Transportation';
 
   @override
   String get travel => 'Travel';
@@ -277,4 +277,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transaction => 'Transaction';
+
+  @override
+  String get remain => 'Remain';
+
+  @override
+  String get over => 'Over';
+
+  @override
+  String get noGoal => 'No Goal';
+
+  @override
+  String get noBudgetGoalYet => 'No Budget Goal Yet';
+
+  @override
+  String get budgetGoalDeleted => 'Budget Goal Deleted';
+
+  @override
+  String get undo => 'Undo';
+
+  @override
+  String get createBudgetGoal => 'Create Budget Goal';
 }

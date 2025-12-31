@@ -277,4 +277,25 @@ class AppLocalizationsKm extends AppLocalizations {
 
   @override
   String get transaction => 'ប្រតិបត្តិការ';
+
+  @override
+  String get remain => 'នៅសល់់';
+
+  @override
+  String get over => 'លើសចំនួន';
+
+  @override
+  String get noGoal => 'គ្មានគោលដៅ';
+
+  @override
+  String get noBudgetGoalYet => 'មិនទាន់មានគោលដៅនៅឡើយ';
+
+  @override
+  String get budgetGoalDeleted => 'គោលដៅត្រូវបានលុប';
+
+  @override
+  String get undo => 'ធ្វើឡើងវិញ';
+
+  @override
+  String get createBudgetGoal => 'បង្កើតគោលដៅ';
 }
