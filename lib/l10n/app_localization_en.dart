@@ -298,4 +298,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createBudgetGoal => 'Create Budget Goal';
+
+  @override
+  String get titleRequired => 'The title needs to be filled';
+
+  @override
+  String get titleLength => 'Enter a title from 5 to 50 characters';
+
+  @override
+  String get amountRequired => 'The amount needs to be filled';
+
+  @override
+  String get amountPositive => 'Amount must be positive number';
+
+  @override
+  String get categoryRequired => 'Please select category';
+
+  @override
+  String get dateRequired => 'Please select date';
+
+  @override
+  String get transactionDeleted => 'Transaction deleted';
+
+  @override
+  String get editIncome => 'Edit Income';
+
+  @override
+  String get editExpense => 'Edit Expense';
+
+  @override
+  String get noTransactionToday => 'There is no transaction, Today!';
+
+  @override
+  String get nodata => 'There is no data';
 }

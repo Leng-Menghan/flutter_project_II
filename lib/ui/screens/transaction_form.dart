@@ -70,36 +70,36 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     }
   }
 
-  String? validateTitle(String? value) {
+  String? validateTitle(String? value, AppLocalizations language) {
     if (value == null || value.isEmpty) {
-      return "The title needs to be filled";
+      return language.titleRequired;
     }
     if (value.length < 5 ||  value.length > 50) {
-      return "Enter a title from 5 to 50 characters";
+      return language.titleLength;
     }
     return null;
   }
 
-  String? validateAmount(String? value) {
+  String? validateAmount(String? value, AppLocalizations language) {
     if (value == null || value.isEmpty) {
-      return "The amount needs to be filled";
+      return language.amountRequired;
     }
     double? amount = double.tryParse(value);
     if ( amount == null || amount <= 0) {
-      return "Value must be positive number";
+      return language.amountPositive;
     }
     return null;
   }
-  String? validateCategory(Category? value) {
+  String? validateCategory(Category? value, AppLocalizations language) {
     if (value == null) {
-      return "Please select category";
+      return language.categoryRequired;
     }
     return null;
   }
 
-  String? validateDate(String? value){
+  String? validateDate(String? value, AppLocalizations language){
     if(selectedDate == null){
-      return "Please select date";
+      return language.dateRequired;
     }
     return null;
   }
@@ -111,7 +111,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     dateController.dispose();
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -124,7 +124,10 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
         toolbarHeight: 80,
         leading: IconButton(onPressed: () => Navigator.pop(context) , icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white,)),
         title: Text(
-          type == TransactionType.income ? language.createIncome : language.createExpense,
+          widget.editTransaction == null ? 
+            (type == TransactionType.income ? language.createIncome : language.createExpense)
+          : 
+            (type == TransactionType.income ? language.editIncome : language.editExpense),
           style: textTheme.displaySmall?.copyWith(color: colorTheme.onPrimary),
         ),
         centerTitle: true,
@@ -160,14 +163,14 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                       label: language.title.toUpperCase(),
                       hintText: language.enterTitle,
                       text: titleController,
-                      validator: validateTitle,
+                      validator: (value) => validateTitle(value, language),
                       islength: true,
                     ),
                     const SizedBox(height: 5),
                     CustomDropdownCategory(
                       selectedCategory: selectedCategory,
                       key: ValueKey(type),
-                      validator: validateCategory,
+                      validator: (value) => validateCategory(value, language),
                       categoryList: categories, 
                       onSelectCategory: (value){
                         setState(() {
@@ -181,11 +184,11 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                       hintText: language.enterAmount,
                       text: amountController,
                       prefix: "\$ ",
-                      validator: validateAmount,
+                      validator: (value)=> validateAmount(value, language),
                     ),
                     const SizedBox(height: 20),
                     CustomeSelectDate(
-                      validator: validateDate, 
+                      validator: (value) => validateDate(value, language), 
                       hintText: language.selectDate, 
                       label: language.date.toUpperCase(), 
                       onTap: selectDate, 
@@ -194,7 +197,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                 ),
               ),
             ),
-            CustomOutlineButton(onPress: onSave, isLong: true, name: "Save")
+            CustomOutlineButton(onPress: onSave, isLong: true, name: language.save)
           ],
         ),
       ),

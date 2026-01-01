@@ -147,10 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ..showSnackBar(
                                   SnackBar(
                                     duration: Duration(seconds: 3),
-                                    content: Text("Transaction deleted"),
+                                    content: Text(language.transactionDeleted),
                                     behavior: SnackBarBehavior.floating,
                                     action: SnackBarAction(
-                                      label: 'Undo',
+                                      label: language.undo,
                                       onPressed: () {
                                         setState(() {
                                           widget.user.addTransaction(t);

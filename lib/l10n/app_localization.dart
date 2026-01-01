@@ -679,6 +679,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Budget Goal'**
   String get createBudgetGoal;
+
+  /// No description provided for @titleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'The title needs to be filled'**
+  String get titleRequired;
+
+  /// No description provided for @titleLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a title from 5 to 50 characters'**
+  String get titleLength;
+
+  /// No description provided for @amountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'The amount needs to be filled'**
+  String get amountRequired;
+
+  /// No description provided for @amountPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount must be positive number'**
+  String get amountPositive;
+
+  /// No description provided for @categoryRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select category'**
+  String get categoryRequired;
+
+  /// No description provided for @dateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select date'**
+  String get dateRequired;
+
+  /// No description provided for @transactionDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction deleted'**
+  String get transactionDeleted;
+
+  /// No description provided for @editIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Income'**
+  String get editIncome;
+
+  /// No description provided for @editExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Expense'**
+  String get editExpense;
+
+  /// No description provided for @noTransactionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no transaction, Today!'**
+  String get noTransactionToday;
+
+  /// No description provided for @nodata.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no data'**
+  String get nodata;
 }
 
 class _AppLocalizationsDelegate

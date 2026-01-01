@@ -96,5 +96,15 @@
   "budgetGoalDeleted" : "Budget Goal Deleted",
   "undo" : "Undo",
   "createBudgetGoal" : "Create Budget Goal",
-  
+  "titleRequired" : "The title needs to be filled",
+  "titleLength": "Enter a title from 5 to 50 characters",
+  "amountRequired" :  "The amount needs to be filled",
+  "amountPositive": "Amount must be positive number",
+  "categoryRequired": "Please select category",
+  "dateRequired": "Please select date",
+  "transactionDeleted": "Transaction deleted",
+  "editIncome": "Edit Income",
+  "editExpense": "Edit Expense",
+  "noTransactionToday": "There is no transaction, Today!",
+  "nodata" : "There is no data"
 }

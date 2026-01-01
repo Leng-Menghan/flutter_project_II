@@ -298,4 +298,37 @@ class AppLocalizationsKm extends AppLocalizations {
 
   @override
   String get createBudgetGoal => 'បង្កើតគោលដៅ';
+
+  @override
+  String get titleRequired => 'សូមបំពេញឈ្មោះប្រតិបត្តិការ';
+
+  @override
+  String get titleLength => 'សូមបញ្ចូលឈ្មោះប្រតិបត្តិការពី 5 ទៅ 50 តួអក្សរ';
+
+  @override
+  String get amountRequired => 'សូមបំពេញចំនួនទឹកប្រាក់';
+
+  @override
+  String get amountPositive => 'ចំនួនទឹកប្រាក់ត្រូវតែជាតម្លៃវិជ្ជមាន';
+
+  @override
+  String get categoryRequired => 'សូមជ្រើសប្រភេទ';
+
+  @override
+  String get dateRequired => 'សូមជ្រើសកាលបរិច្ឆេទ';
+
+  @override
+  String get transactionDeleted => 'ប្រតិបត្តិការត្រូវបានលុប';
+
+  @override
+  String get editIncome => 'កែប្រែចំណូល';
+
+  @override
+  String get editExpense => 'កែប្រែចំណាយ';
+
+  @override
+  String get noTransactionToday => 'គ្មានប្រតិបត្តិការនៅថ្ងៃនេះ';
+
+  @override
+  String get nodata => 'គ្មានទិន្នន័យ';
 }

@@ -96,4 +96,15 @@
    "budgetGoalDeleted" : "គោលដៅត្រូវបានលុប",
     "undo" : "ធ្វើឡើងវិញ",
     "createBudgetGoal" : "បង្កើតគោលដៅ",
+    "titleRequired": "សូមបំពេញឈ្មោះប្រតិបត្តិការ",
+  "titleLength": "សូមបញ្ចូលឈ្មោះប្រតិបត្តិការពី 5 ទៅ 50 តួអក្សរ",
+  "amountRequired": "សូមបំពេញចំនួនទឹកប្រាក់",
+  "amountPositive": "ចំនួនទឹកប្រាក់ត្រូវតែជាតម្លៃវិជ្ជមាន",
+  "categoryRequired": "សូមជ្រើសប្រភេទ",
+  "dateRequired": "សូមជ្រើសកាលបរិច្ឆេទ",
+  "transactionDeleted": "ប្រតិបត្តិការត្រូវបានលុប",
+  "editIncome": "កែប្រែចំណូល",
+  "editExpense": "កែប្រែចំណាយ",
+  "noTransactionToday": "គ្មានប្រតិបត្តិការនៅថ្ងៃនេះ",
+  "nodata" : "គ្មានទិន្នន័យ"
 }
