@@ -16,11 +16,11 @@ class CustomWeekSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
-
+    final locale = Localizations.localeOf(context).toString();
     final label =
-        "${DateFormat('dd MMM yyyy').format(startDay)}"
+        "${DateFormat('dd MMM yyyy', locale).format(startDay)}"
         " - "
-        "${DateFormat('dd MMM yyyy').format(startDay.add(Duration(days: 6)))}";
+        "${DateFormat('dd MMM yyyy', locale).format(startDay.add(Duration(days: 6)))}";
     return Row(
       children: [
         GestureDetector(
@@ -28,13 +28,13 @@ class CustomWeekSwitcher extends StatelessWidget {
           child: Icon(Icons.arrow_back_ios_rounded,
               color: colorTheme.primary, size: 20),
         ),
-        const SizedBox(width: 15),
+        const SizedBox(width: 5),
         Text(
           label,
           textAlign: TextAlign.center,
-          style: textTheme.titleLarge,
+          style: textTheme.titleMedium,
         ),
-        const SizedBox(width: 15),
+        const SizedBox(width: 5),
         GestureDetector(
           onTap: onNext,
           child: Icon(Icons.arrow_forward_ios_rounded,

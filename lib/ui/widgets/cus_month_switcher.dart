@@ -12,6 +12,7 @@ class CustomMonthSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
+    final locale = Localizations.localeOf(context).toString();
     return  Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -24,7 +25,7 @@ class CustomMonthSwitcher extends StatelessWidget {
           ),
         ),
         isBig ? const Spacer() : const SizedBox(),
-        SizedBox(width: 150, child: Text(DateFormat.yMMMM().format(date), textAlign: TextAlign.center, style: textTheme.titleLarge?.copyWith(color: colorTheme.onSurface))),
+        SizedBox(width: 150, child: Text(DateFormat.yMMMM(locale).format(date), textAlign: TextAlign.center, style: textTheme.titleLarge?.copyWith(color: colorTheme.onSurface))),
         isBig ? const Spacer() : const SizedBox(),
         GestureDetector(
           onTap: onNext,               
