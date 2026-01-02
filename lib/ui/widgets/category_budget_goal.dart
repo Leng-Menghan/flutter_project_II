@@ -29,20 +29,17 @@ class CategoryBudgetGoal extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               leading: CircleAvatar(
                 radius: 22.5,
-                backgroundColor:spent>goal? Colors.red : category.backgroundColor,
-                child: spent>goal ? 
-                  Icon(Icons.error_outline, color: colorTheme.onPrimary,)
-                  :
-                  Image.asset(
-                    category.icon,
-                    width: 25,
-                    height: 25,
-                  ),
-                ),
+                backgroundColor: spent > goal
+                    ? Colors.red
+                    : category.backgroundColor,
+                child: spent > goal
+                    ? Icon(Icons.error_outline, color: colorTheme.onPrimary)
+                    : Image.asset(category.icon, width: 25, height: 25),
+              ),
               title: Text(
-                "${category.label}${spent>goal ? " : Over Budget !!!" : ""}",
+                "${category.label}${spent > goal ? " : Over Budget !!!" : ""}",
                 style: textTheme.titleLarge?.copyWith(
-                  color: spent>goal ? Colors.red: colorTheme.onSurface
+                  color: spent > goal ? Colors.red : colorTheme.onSurface,
                 ),
               ),
             ),
@@ -62,9 +59,7 @@ class CategoryBudgetGoal extends StatelessWidget {
             child: Text(
               "- \$$spent",
               textAlign: TextAlign.end,
-              style: textTheme.titleLarge?.copyWith(
-                color: Colors.red,
-              ),
+              style: textTheme.titleLarge?.copyWith(color: Colors.red),
             ),
           ),
         ],
