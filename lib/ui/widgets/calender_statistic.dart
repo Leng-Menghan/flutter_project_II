@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:fundamental_flutter_project/ui/screens/inspect_statistic.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../models/transaction.dart';
 import '../../models/user.dart';
 
-class CalenderStatistic extends StatelessWidget {
+class CalenderStatistic extends StatefulWidget {
+  final User user;
   final DateTime date;
   final ValueChanged<DateTime> onPageChange;
-  final User user;
-  const CalenderStatistic({super.key, required this.date, required this.onPageChange, required this.user});
+  final VoidCallback isRefresh;
+  const CalenderStatistic({super.key, required this.user, required this.date, required this.onPageChange, required this.isRefresh});
+
+  @override
+  State<CalenderStatistic> createState() => _CalenderStatisticState();
+}
+
+class _CalenderStatisticState extends State<CalenderStatistic> {
+  
+  void onTapStatistic(DateTime initialDate) async{
+    bool? isChanged = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => InspectStatistic(user: widget.user,initialDate: initialDate)
+      ),
+    );
+    if(isChanged == true){
+      widget.isRefresh();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +51,8 @@ class CalenderStatistic extends StatelessWidget {
           weekdayStyle: textTheme.titleMedium!.copyWith(color: colorTheme.onPrimary),
           weekendStyle: textTheme.titleMedium!.copyWith(color: colorTheme.onPrimary),
         ),
-        focusedDay: date,
-        onPageChanged: onPageChange,
+        focusedDay: widget.date,
+        onPageChanged: widget.onPageChange,
         calendarBuilders: CalendarBuilders(
           defaultBuilder: (context, day, focusedDay) => buildDayCell(day, context),
           todayBuilder: (context, day, focusedDay) => buildDayCell(day, context, isToday: true) 
@@ -43,13 +62,13 @@ class CalenderStatistic extends StatelessWidget {
   }
 
   Widget buildDayCell(DateTime date, BuildContext context, {bool isToday = false}) {
-    List<Transaction> transactions = user.getTransactions(year: date.year, month: date.month, day: date.day);
-    double totalExpense = user.getTotalAmountByType(transactionList: transactions, type: TransactionType.expense);
-    double totalIncome = user.getTotalAmountByType(transactionList: transactions, type: TransactionType.income);
+    List<Transaction> transactions = widget.user.getTransactions(year: date.year, month: date.month, day: date.day);
+    double totalExpense = widget.user.getTotalAmountByType(transactionList: transactions, type: TransactionType.expense);
+    double totalIncome = widget.user.getTotalAmountByType(transactionList: transactions, type: TransactionType.income);
     String formatAmount(double amount) => NumberFormat.compact().format(amount);
 
     return GestureDetector(
-      onTap: (){},
+      onTap: () => onTapStatistic(date),
       child: Container(
         padding: const EdgeInsets.all(3),
         margin:const EdgeInsets.all(2),

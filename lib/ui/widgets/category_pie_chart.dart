@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:fundamental_flutter_project/ui/screens/inspect_category.dart';
 import '../../l10n/app_localization.dart';
 import '../../models/category.dart';
 import '../../models/user.dart';
@@ -8,10 +9,11 @@ import 'category_item.dart';
 import 'transaction_filter_button.dart';
 
 class CategoryPieChart extends StatefulWidget {
+  final User user;
   final DateTime start;
   final DateTime end;
-  final User user;
-  const CategoryPieChart({super.key, required this.user, required this.start, required this.end});
+  final VoidCallback isRefresh;
+  const CategoryPieChart({super.key, required this.user, required this.start, required this.end, required this.isRefresh});
 
   @override
   State<CategoryPieChart> createState() => _CategoryPieChartState();
@@ -20,10 +22,26 @@ class CategoryPieChart extends StatefulWidget {
 class _CategoryPieChartState extends State<CategoryPieChart> {
   TransactionType filter = TransactionType.income;
 
+  void onTapCategory(Category category, List<Transaction> list, TransactionType type) async{
+    bool? isChanged = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => InspectCategory(
+          user: widget.user,
+          category: category,
+          transactions: list,
+          type: type,
+        ),
+      ),
+    );
+    if(isChanged == true){
+      widget.isRefresh();
+    }
+  }
   List<Transaction> get transactions => widget.user.getTransactionsDuration(start: widget.start, end: widget.end);
   double get totalAmount => widget.user.getTotalAmountByType(transactionList: transactions, type: filter);
   Map<Category, List<Transaction>> get grouped => widget.user.groupTransactionsByCategoryAndType(transactions, filter);
-
+  
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -87,7 +105,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
               double amount = list.fold(0.0, (sum, t) => sum + t.amount);
               String percentage = "${((amount / totalAmount) * 100).round()}%";
               return GestureDetector(
-                onTap: (){},
+                onTap: () => onTapCategory(category, list, filter),
                 child: CategoryItem(
                   category: category, 
                   type: filter, 

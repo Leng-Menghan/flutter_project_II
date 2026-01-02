@@ -5,17 +5,13 @@ import '../widgets/cus_outline_button.dart';
 import '../widgets/transaction_filter_button.dart';
 import '../widgets/transaction_item.dart';
 import '../../models/transaction.dart';
+import 'transaction_form.dart';
 
 class InspectStatistic extends StatefulWidget {
   final User user;
   final DateTime initialDate;
   final TransactionType? type;
-  const InspectStatistic({
-    super.key,
-    required this.initialDate,
-    required this.user,
-    this.type,
-  });
+  const InspectStatistic({super.key, required this.initialDate, this.type, required this.user});
 
   @override
   State<InspectStatistic> createState() => _InspectStatisticState();
@@ -24,12 +20,28 @@ class InspectStatistic extends StatefulWidget {
 class _InspectStatisticState extends State<InspectStatistic> {
   TransactionType? selectedType;
   late DateTime date;
+  bool isChanged = false;
+
+  void onCreate() async {
+    Transaction? newTransaction = await Navigator.push<Transaction>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TransactionFormScreen(),
+      ),
+    );
+    if(newTransaction != null){
+      setState(() {
+        isChanged = true;
+      });
+      widget.user.addTransaction(newTransaction);
+    }
+  }
 
   @override
-  void initState() {
-    if (widget.type != null) {
+  void initState(){
+    if(widget.type != null){
       selectedType = widget.type!;
-    } else {
+    }else{
       selectedType = TransactionType.income;
     }
     date = widget.initialDate;
@@ -37,16 +49,13 @@ class _InspectStatisticState extends State<InspectStatistic> {
   }
 
   List<Transaction> get filteredTransactions {
-    return widget.user
-        .getTransactions(year: date.year, month: date.month, day: date.day)
-        .where((t) {
-          return t.type == selectedType;
-        })
-        .toList();
+    return widget.user.getTransactions(year: date.year, month: date.month, day: date.day).where((t) {
+      return t.type == selectedType;
+    }).toList();
   }
 
   double get total => filteredTransactions.fold(0, (sum, t) => sum + t.amount);
-
+    
   void onNextDay() {
     setState(() {
       date = date.add(Duration(days: 1));
@@ -59,6 +68,34 @@ class _InspectStatisticState extends State<InspectStatistic> {
     });
   }
 
+  void onEdit(Transaction t) async {
+    Transaction? newTransaction = await Navigator.push<Transaction>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TransactionFormScreen(editTransaction: t),
+      ),
+    );
+
+    if(newTransaction != null){
+      setState(() {
+        isChanged = true;
+      });
+      widget.user.updateTransaction(newTransaction, t.id);
+    }
+  }
+
+  void onDelete(String id){
+    setState(() {
+      isChanged = true;
+    });
+    widget.user.removeTransaction(id);
+  }
+    void onUndo(Transaction t){
+    setState(() {
+      isChanged = true;
+    });
+    widget.user.addTransaction(t);
+  }
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -74,7 +111,7 @@ class _InspectStatisticState extends State<InspectStatistic> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context, isChanged),
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
         ),
         title: Text(
@@ -120,11 +157,10 @@ class _InspectStatisticState extends State<InspectStatistic> {
                 itemBuilder: (context, index) {
                   final tx = filteredTransactions[index];
                   return TransactionItem(
-                    title: tx.title,
-                    amount: tx.amount,
-                    type: tx.type,
-                    imageAsset: tx.category.icon,
-                    background: tx.category.backgroundColor,
+                    transaction: tx, 
+                    onEdit: () => onEdit(tx), 
+                    onDelete: () => onDelete(tx.id),
+                    onUndo: () => onUndo(tx)
                   );
                 },
               ),
@@ -140,7 +176,7 @@ class _InspectStatisticState extends State<InspectStatistic> {
                   ),
                 ),
                 const Spacer(),
-                CustomOutlineButton(name: "Add", onPress: () {}),
+                CustomOutlineButton(name: "Add", onPress: onCreate),
                 const Spacer(),
                 IconButton(
                   onPressed: onNextDay,

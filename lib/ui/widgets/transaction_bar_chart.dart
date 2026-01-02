@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fundamental_flutter_project/ui/screens/inspect_statistic.dart';
+import 'package:intl/intl.dart';
 import '../../l10n/app_localization.dart';
 import '../../models/transaction.dart';
 import '../../models/user.dart';
 
-class WeeklyBarChart extends StatelessWidget {
+class WeeklyBarChart extends StatefulWidget {
   final User user;
   final DateTime date;
-
+  final VoidCallback isRefresh;
   const WeeklyBarChart({
     super.key,
     required this.user,
     required this.date,
+    required this.isRefresh
   });
 
+  @override
+  State<WeeklyBarChart> createState() => _WeeklyBarChartState();
+}
+
+class _WeeklyBarChartState extends State<WeeklyBarChart> {
   List<DateTime> getWeekDays(DateTime start) {
     return List.generate(7, (i) => start.add(Duration(days: i)));
   }
@@ -31,12 +39,23 @@ class WeeklyBarChart extends StatelessWidget {
     return interval;
   }
 
+  void onTapStatistic(BuildContext context, DateTime initialDate, TransactionType type) async{
+    bool? isChanged = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => InspectStatistic(user: widget.user,initialDate: initialDate, type: type)
+      ),
+    );
+    if(isChanged == true){
+      widget.isRefresh();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final language = AppLocalizations.of(context)!;
-    List<DateTime> weekDates = getWeekDays(date);
-    List<double> weekIncome = user.getWeeklyData(weekDates, TransactionType.income);
-    List<double> weekExpense = user.getWeeklyData(weekDates, TransactionType.expense);
+    List<DateTime> weekDates = getWeekDays(widget.date);
+    List<double> weekIncome = widget.user.getWeeklyData(weekDates, TransactionType.income);
+    List<double> weekExpense = widget.user.getWeeklyData(weekDates, TransactionType.expense);
     double interval = getInterval(weekIncome, weekExpense);
     double maxY = getMaxY(weekIncome, weekExpense);
 
@@ -60,6 +79,17 @@ class WeeklyBarChart extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: BarChart(
               BarChartData(
+                barTouchData: BarTouchData(
+                  enabled: true,
+                  touchCallback: (event, response) {
+                    if (event is FlTapUpEvent && response?.spot != null) {
+                      final indexDate = response!.spot!.touchedBarGroupIndex;
+                      final indexType = response.spot!.touchedRodDataIndex; 
+                      TransactionType type = indexType == 0 ? TransactionType.income : TransactionType.expense;
+                      onTapStatistic(context, weekDates[indexDate], type);
+                    }
+                  },
+                ),
                 maxY: maxY,
                 barGroups: List.generate(7, (index) {
                   return BarChartGroupData(
@@ -88,7 +118,7 @@ class WeeklyBarChart extends StatelessWidget {
                       interval: interval,
                       reservedSize: 40,
                       getTitlesWidget: (value, meta) =>
-                          Text(value.toInt().toString()),
+                          Text(NumberFormat.compact().format(value).toString()),
                     ),
                   ),
                   rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
