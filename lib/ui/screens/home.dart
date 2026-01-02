@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../models/transaction.dart';
 import '../../models/user.dart';
 import '../widgets/header.dart';
@@ -20,6 +19,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TransactionType? filter;
+
+  List<Transaction> get transactions => widget.user.getTransactionsToday(type: filter);
+  double get rawBalance => widget.user.getTotalBalance(transactionList: transactions);
+  double get balance => rawBalance.abs();
+  String get sign => rawBalance >= 0 ? '+' : '-';
 
   void onCreate() async {
     Transaction? newTransaction = await Navigator.push<Transaction>(
@@ -48,12 +52,17 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
   }
+  void onDelete(String id){
+    setState(() {
+      widget.user.removeTransaction(id);
+    });
+  }
 
-  List<Transaction> get transactions => widget.user.getTransactionsToday(type: filter);
-  double get rawBalance => widget.user.getTotalBalance(transactionList: transactions);
-  double get balance => rawBalance.abs();
-  String get sign => rawBalance >= 0 ? '+' : '-';
-
+  void onUndo(int index, Transaction t){
+    setState(() {
+      widget.user.addTransaction(t);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -119,59 +128,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: transactions.length,
                     itemBuilder: (context, index){
                       Transaction t = transactions[index];
-                      return Slidable(
-                        key: ValueKey(t.id),
-                        startActionPane: ActionPane(
-                          motion: const DrawerMotion(),
-                          extentRatio: 0.2,
-                          children: [
-                            SlidableAction(
-                              onPressed: (context) => onEdit(t),
-                              backgroundColor: Colors.transparent,
-                              foregroundColor: Colors.blue,
-                              icon: Icons.edit,
-                            ),
-                          ],
-                        ),
-                        endActionPane: ActionPane(
-                          motion: const DrawerMotion(),
-                          extentRatio: 0.2,
-                          children: [
-                            SlidableAction(
-                              onPressed: (context) {
-                                setState(() {
-                                  widget.user.removeTransaction(t.id); 
-                                });
-                                ScaffoldMessenger.of(context)
-                                  ..clearSnackBars()
-                                  ..showSnackBar(
-                                  SnackBar(
-                                    duration: Duration(seconds: 3),
-                                    content: Text(language.transactionDeleted),
-                                    behavior: SnackBarBehavior.floating,
-                                    action: SnackBarAction(
-                                      label: language.undo,
-                                      onPressed: () {
-                                        setState(() {
-                                          widget.user.addTransaction(t);
-                                        });
-                                      },
-                                    ),
-                                  )
-                                );
-                              },
-                              backgroundColor: Colors.transparent,
-                              foregroundColor: Colors.red,
-                              icon: Icons.delete,
-                            ),
-                          ],
-                        ),
-                        child: TransactionItem(
-                          background: t.category.backgroundColor, 
-                          imageAsset: t.category.icon, 
-                          title: t.title, 
-                          type: t.type, 
-                          amount: t.amount),
+                      return TransactionItem(
+                        transaction: t, 
+                        onEdit: () => onEdit(t), 
+                        onDelete: (){
+                          setState(() {
+                            widget.user.removeTransaction(t.id);
+                          });
+                        }, 
+                        onUndo: (){
+                          setState(() {
+                            widget.user.addTransaction(t);
+                          });
+                        }
                       );
                     }
                   ) : 
