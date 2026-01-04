@@ -42,14 +42,14 @@ class CustomDropdownCategory extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Text(c.label, style: textTheme.titleMedium),
+                  Text(c.getLabel(language), style: textTheme.titleMedium),
                 ],
               ),
             );
           }).toList(),
           selectedItemBuilder: (context) {
             return categoryList.map((c) {
-              return Text(c.label, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.normal));
+              return Text(c.getLabel(language), style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.normal));
             }).toList();
           },
           onChanged: (value) {

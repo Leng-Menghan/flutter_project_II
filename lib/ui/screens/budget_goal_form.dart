@@ -1,23 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:fundamental_flutter_project/l10n/app_localization.dart';
-import 'package:fundamental_flutter_project/ui/widgets/cus_outline_button.dart';
-import '../widgets/cus_textfield.dart';
 import '../../models/category.dart';
 import '../../models/budget_goal.dart';
+import '../widgets/cus_outline_button.dart';
+import '../widgets/cus_textfield.dart';
 import '../widgets/cus_dropdown_category.dart';
 
 class CreateBudget extends StatefulWidget {
+  final String amountLabel;
   final BudgetGoal? edit;
   final DateTime date;
   final List<Category> avaliableCategories;
-  const CreateBudget({
-    super.key,
-    required this.date,
-    this.edit,
-    required this.avaliableCategories,
-  });
+  const CreateBudget({super.key, required this.amountLabel, required this.date, this.edit, required this.avaliableCategories});
 
   @override
   State<CreateBudget> createState() => _CreateBudgetState();
@@ -34,6 +27,7 @@ class _CreateBudgetState extends State<CreateBudget> {
       final double? amount = double.tryParse(_amountController.text);
       final Category? category = _selectedCategory;
       final goal = BudgetGoal(
+        id: widget.edit?.id,
         category: category!,
         goalAmount: amount!,
         year: widget.date.year,
@@ -45,7 +39,7 @@ class _CreateBudgetState extends State<CreateBudget> {
 
   @override
   void initState() {
-    if (widget.edit != null) {
+    if(widget.edit != null){
       _amountController.text = widget.edit!.goalAmount.toString();
       _selectedCategory = widget.edit!.category;
     }
@@ -63,7 +57,7 @@ class _CreateBudgetState extends State<CreateBudget> {
       return "The amount needs to be filled";
     }
     double? amount = double.tryParse(value);
-    if (amount == null || amount <= 0) {
+    if ( amount == null || amount <= 0) {
       return "Value must be positive number";
     }
     return null;
@@ -81,18 +75,14 @@ class _CreateBudgetState extends State<CreateBudget> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final textTheme = theme.textTheme;
-    final language = AppLocalizations.of(context)!;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 80,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
-        ),
+        leading: IconButton(onPressed: () => Navigator.pop(context) , icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white,)),
         title: Text(
-          language.createBudgetGoal,
+          "Create Budget Goal",
           style: textTheme.displaySmall?.copyWith(color: colors.onPrimary),
         ),
         centerTitle: true,
@@ -104,7 +94,7 @@ class _CreateBudgetState extends State<CreateBudget> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+            topRight: Radius.circular(20)
           ),
           color: colors.onPrimary,
         ),
@@ -116,30 +106,25 @@ class _CreateBudgetState extends State<CreateBudget> {
               child: Column(
                 children: [
                   CustomTextField(
-                    label: language.amount,
-                    hintText: language.enterAmount,
-                    text: _amountController,
-                    validator: validateAmount,
+                    label: "AMOUNT", 
+                    hintText: "Enter Amount", 
+                    text: _amountController, 
+                    validator: validateAmount, 
                     isNumInput: true,
-                    prefix: "\$ ",
+                    prefix: "${widget.amountLabel} ",
                   ),
                   const SizedBox(height: 20),
                   CustomDropdownCategory(
                     selectedCategory: _selectedCategory,
-                    categoryList: widget.avaliableCategories,
-                    onSelectCategory: (value) =>
-                        setState(() => _selectedCategory = value),
-                    validator: validateCategory,
+                    categoryList: widget.avaliableCategories, 
+                    onSelectCategory: (value) => setState(() => _selectedCategory = value),
+                    validator: validateCategory
                   ),
                 ],
               ),
             ),
             const Spacer(),
-            CustomOutlineButton(
-              name: language.save,
-              onPress: _saveBudget,
-              isLong: true,
-            ),
+            CustomOutlineButton(name: "Save", onPress: _saveBudget, isLong: true,),
           ],
         ),
       ),

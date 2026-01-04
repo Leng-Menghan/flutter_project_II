@@ -19,6 +19,6 @@ class FilterButton extends StatelessWidget {
         )
       ), 
       child: Text(name, style: textTheme.titleLarge?.copyWith(color:isClick? colorTheme.primary : colorTheme.onPrimary))
-      );
+    );
   }
 }

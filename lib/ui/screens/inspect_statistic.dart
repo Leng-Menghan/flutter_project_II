@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/user.dart';
+import '../../utils/animations_util.dart';
 import '../widgets/cus_outline_button.dart';
 import '../widgets/transaction_filter_button.dart';
 import '../widgets/transaction_item.dart';
@@ -25,15 +26,13 @@ class _InspectStatisticState extends State<InspectStatistic> {
   void onCreate() async {
     Transaction? newTransaction = await Navigator.push<Transaction>(
       context,
-      MaterialPageRoute(
-        builder: (context) => TransactionFormScreen(),
-      ),
+      AnimationUtils.scaleWithFade(TransactionFormScreen(amountLabel: amountLabel, date: date,))
     );
     if(newTransaction != null){
+      await widget.user.addTransaction(newTransaction);
       setState(() {
         isChanged = true;
       });
-      widget.user.addTransaction(newTransaction);
     }
   }
 
@@ -71,31 +70,30 @@ class _InspectStatisticState extends State<InspectStatistic> {
   void onEdit(Transaction t) async {
     Transaction? newTransaction = await Navigator.push<Transaction>(
       context,
-      MaterialPageRoute(
-        builder: (context) => TransactionFormScreen(editTransaction: t),
-      ),
+      AnimationUtils.slideBTWithFade(TransactionFormScreen(editTransaction: t, amountLabel: amountLabel))
     );
 
     if(newTransaction != null){
+      await widget.user.updateTransaction(newTransaction, t.id);
       setState(() {
         isChanged = true;
       });
-      widget.user.updateTransaction(newTransaction, t.id);
     }
   }
 
-  void onDelete(String id){
+  void onDelete(String id) async{
+    await widget.user.removeTransaction(id);
     setState(() {
       isChanged = true;
     });
-    widget.user.removeTransaction(id);
   }
-    void onUndo(Transaction t){
+  void onUndo(Transaction t) async{
+    await widget.user.addTransaction(t);
     setState(() {
       isChanged = true;
     });
-    widget.user.addTransaction(t);
   }
+  String get amountLabel => widget.user.preferredAmountType == AmountType.dollar ? "\$" : "៛";
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -104,7 +102,6 @@ class _InspectStatisticState extends State<InspectStatistic> {
     return Scaffold(
       backgroundColor: colors.secondary,
 
-      // 🔹 APP BAR
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: colors.secondary,
@@ -120,7 +117,6 @@ class _InspectStatisticState extends State<InspectStatistic> {
         ),
       ),
 
-      // 🔹 BODY
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
         decoration: const BoxDecoration(
@@ -134,7 +130,7 @@ class _InspectStatisticState extends State<InspectStatistic> {
               children: [
                 Text('Total:', style: textTheme.titleLarge),
                 Text(
-                  '\$${total.toStringAsFixed(2)}',
+                  '$amountLabel${NumberFormat("#,##0.00").format(total)}',
                   style: textTheme.titleLarge?.copyWith(
                     color: selectedType == TransactionType.expense
                         ? Colors.red
@@ -160,7 +156,7 @@ class _InspectStatisticState extends State<InspectStatistic> {
                     transaction: tx, 
                     onEdit: () => onEdit(tx), 
                     onDelete: () => onDelete(tx.id),
-                    onUndo: () => onUndo(tx)
+                    onUndo: () => onUndo(tx), amountLabel: amountLabel,
                   );
                 },
               ),

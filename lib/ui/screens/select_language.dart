@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../models/user.dart';
 
-class SelectLanguageScreen extends StatelessWidget {
-  const SelectLanguageScreen({
+import '../../data/share_reference.dart';
+import '../../models/user.dart';
+import '../../utils/animations_util.dart';
+import 'inpute_name.dart';
+class LanguageScreen extends StatelessWidget {
+  const LanguageScreen({
     super.key,
   });
 
@@ -39,8 +42,12 @@ class SelectLanguageScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5)
                     )
                   ),
-                  onPressed: (){
-
+                  onPressed: () async {
+                      await ShareReference.setLanguage(l);
+                      Navigator.pushReplacement(
+                        context,
+                        AnimationUtils.slideTBWithFade(NameScreen())
+                      );
                   }, 
                   child: Row(
                     children: [

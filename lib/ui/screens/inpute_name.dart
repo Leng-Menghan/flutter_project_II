@@ -1,24 +1,46 @@
 import 'package:flutter/material.dart';
-import '../../l10n/app_localization.dart';
+import '../../data/share_reference.dart';
+import '../../data/sqlite.dart';
+import '../../main.dart';
+import '../../utils/animations_util.dart';
 import '../widgets/cus_textfield.dart';
-import '../../models/user.dart';
 import '../widgets/input_decoration.dart';
+import '../../models/user.dart';
 
-class InputNameScreen extends StatefulWidget {
-  const InputNameScreen({super.key});
+
+class NameScreen extends StatefulWidget {
+  const NameScreen({super.key});
 
   @override
-  State<InputNameScreen> createState() => _InputNameScreenState();
+  State<NameScreen> createState() => _NameScreenState();
 }
 
-class _InputNameScreenState extends State<InputNameScreen> {
+class _NameScreenState extends State<NameScreen> {
   final _formKey = GlobalKey<FormState>();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   AmountType? amountType;
   void onPress() async{
     if (_formKey.currentState!.validate()) {
+      String name = "${firstNameController.text.trim()} ${lastNameController.text.trim()}".trim();
+      await ShareReference.setName(name);
+      await ShareReference.setAmountType(amountType!);
+      Map<String, dynamic> userInfo = await ShareReference.readUserInfo();
+      await Sqlite.initDatabase();
+      
+      User user = User(
+        name: name,
+        profileImage: "",
+        preferredLanguage: userInfo['language'],
+        preferredAmountType: amountType!,
+        transactions: [],
+        budgetGoals: [],
+      );
 
+      Navigator.pushReplacement(
+        context,
+        AnimationUtils.scaleWithFade(AppRoot(user: user))
+      );
     }
   } 
 
@@ -28,6 +50,9 @@ class _InputNameScreenState extends State<InputNameScreen> {
     }
     if (value.length > 20) {
       return "Can not more than 20 characters";
+    }
+    if (value.contains(' ')) {
+      return "Name cannot contain spaces";
     }
     return null;
   }
@@ -49,7 +74,6 @@ class _InputNameScreenState extends State<InputNameScreen> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
-    final language = AppLocalizations.of(context)!;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -70,10 +94,10 @@ class _InputNameScreenState extends State<InputNameScreen> {
                     const SizedBox(height: 20),
                     CustomTextField(label: "LAST NAME", hintText: "Enter your last name", text: lastNameController, validator: validateName,),
                     const SizedBox(height: 20),
-                    Text(language.amountType.toUpperCase(), style:TextStyle(color: colorTheme.onSurface),),
+                    Text("AMOUNT TYPE", style:TextStyle(color: colorTheme.onSurface),),
                     const SizedBox(height: 10),
                     DropdownButtonFormField<AmountType>(
-                      initialValue: null,
+                      initialValue: amountType,
                       validator: validateAmountType,
                       icon: Padding(
                         padding: const EdgeInsets.only(right: 10),
@@ -95,7 +119,9 @@ class _InputNameScreenState extends State<InputNameScreen> {
                       }).toList(),
                       onChanged: (value) {
                         if (value != null) {
-                      
+                          setState(() {
+                            amountType = value;
+                          });
                         }
                       },
                     ),

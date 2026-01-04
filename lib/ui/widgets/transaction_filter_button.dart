@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../models/transaction.dart';
 import 'filter_button.dart';
 import '../../l10n/app_localization.dart';

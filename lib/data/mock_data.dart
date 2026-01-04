@@ -174,4 +174,5 @@ User user = User(
       date: DateTime(2025, 12, 28),
     ),
   ],
+  budgetGoals: []
 );

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/transaction.dart';
 import '../../models/user.dart';
+import '../../utils/animations_util.dart';
+import '../../l10n/app_localization.dart';
 import '../widgets/header.dart';
 import '../widgets/dashboard_amount.dart';
 import '../widgets/transaction_filter_button.dart';
 import '../widgets/transaction_item.dart';
-import '../../l10n/app_localization.dart';
 import 'transaction_form.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,50 +20,67 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TransactionType? filter;
+  late List<Transaction> transactionsToday;
 
-  List<Transaction> get transactions => widget.user.getTransactionsToday(type: filter);
-  double get rawBalance => widget.user.getTotalBalance(transactionList: transactions);
-  double get balance => rawBalance.abs();
-  String get sign => rawBalance >= 0 ? '+' : '-';
+  @override
+  void initState(){
+    transactionsToday = widget.user.getTransactionsToday(type: filter);
+    super.initState();
+  }
+
+  List<Transaction> get transactions => filter == null ? transactionsToday : transactionsToday.where((t) => filter == TransactionType.income ? t.isIncome : t.isExpense).toList();
+  double get totalToday => filter == null ? transactions.fold(0.0, (sum, t) => sum + (t.isExpense ? -t.amount : t.amount)) : transactions.fold(0.0, (sum, t) => sum + t.amount);
+  String get sign => filter == TransactionType.income ? '+' : filter == TransactionType.expense ? '-' : '';
+
+  double get totalBalance => widget.user.getTotalBalance();
+  double get totalIncome => widget.user.getTotalAmountByType(type: TransactionType.income);
+  double get totalExpense => widget.user.getTotalAmountByType(type: TransactionType.expense);
 
   void onCreate() async {
     Transaction? newTransaction = await Navigator.push<Transaction>(
       context,
-      MaterialPageRoute(
-        builder: (context) => TransactionFormScreen(),
+      AnimationUtils.scaleWithFade(
+        TransactionFormScreen(amountLabel: amountLabel,)
       ),
     );
-    setState(() {
-      if(newTransaction != null){
-        widget.user.addTransaction(newTransaction);
-      }
-    });
+
+    if(newTransaction != null){
+      await widget.user.addTransaction(newTransaction);
+      setState(() {
+        transactionsToday.insert(0, newTransaction);
+      });
+    }
   }
 
-  void onEdit(Transaction t) async {
+  void onEdit(Transaction tx) async {
     Transaction? newTransaction = await Navigator.push<Transaction>(
       context,
-      MaterialPageRoute(
-        builder: (context) => TransactionFormScreen(editTransaction: t),
+      AnimationUtils.slideBTWithFade(
+        TransactionFormScreen(editTransaction: tx, amountLabel: amountLabel)
       ),
     );
-    setState(() {
-      if(newTransaction != null){
-        widget.user.updateTransaction(newTransaction, t.id);
-      }
-    });
+    if(newTransaction != null){
+      await widget.user.updateTransaction(newTransaction, tx.id);
+      setState(() {
+        transactionsToday = transactionsToday.map((t) => t.id == tx.id ? newTransaction : t).toList();
+      });
+    }
   }
-  void onDelete(String id){
+
+  void onDelete(String id) async{
+    await widget.user.removeTransaction(id);
     setState(() {
-      widget.user.removeTransaction(id);
+      transactionsToday.removeWhere((t) => t.id == id);
     });
   }
 
-  void onUndo(int index, Transaction t){
+  void onUndo(Transaction t) async{
+    await widget.user.addTransaction(t);
     setState(() {
-      widget.user.addTransaction(t);
+      transactionsToday.insert(0, t);
     });
   }
+  String get amountLabel => widget.user.preferredAmountType == AmountType.dollar ? "\$" : "៛";
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -100,10 +118,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Header(greeting: widget.user.getLocalizedGreeting(language), userName: widget.user.name, onPress: onCreate, profileLabel: widget.user.getProfileLabel(),),
                   const SizedBox(height: 10),
                   DashboardAmount(
-                    total: widget.user.getTotalBalance(), 
-                    income: widget.user.getTotalAmountByType(type: TransactionType.income), 
-                    expense: widget.user.getTotalAmountByType(type: TransactionType.expense), 
-                    isTotalExist: true,
+                    total: totalBalance, 
+                    income: totalIncome,
+                    expense: totalExpense, 
+                    isTotalExist: true, 
+                    amountLabel: amountLabel,
                   ),
                   const SizedBox(height: 30),
                   TransactionFilterButton(
@@ -118,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("${language.today} $formattedDate", style: textTheme.titleLarge),
-                      Text("$sign \$$balance" , style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: filter == null? Colors.blue : filter!.color))
+                      Text("$sign $amountLabel${NumberFormat("#,##0.00").format(totalToday)}" , style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: filter == null? Colors.blue : filter!.color))
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -131,16 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       return TransactionItem(
                         transaction: t, 
                         onEdit: () => onEdit(t), 
-                        onDelete: (){
-                          setState(() {
-                            widget.user.removeTransaction(t.id);
-                          });
-                        }, 
-                        onUndo: (){
-                          setState(() {
-                            widget.user.addTransaction(t);
-                          });
-                        }
+                        onDelete: () => onDelete(t.id), 
+                        onUndo: () => onUndo(t), 
+                        amountLabel: amountLabel,
                       );
                     }
                   ) : 
