@@ -27,6 +27,7 @@ class LanguageScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(child: Image.asset("assets/logo.png", height: 150,)),
             Center(child: Text("Smart Finance", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.w900),)),
             SizedBox(height: 40),
             Text("ភាសា / LANGUAGE", style: TextStyle(color: Colors.white),),
@@ -44,7 +45,7 @@ class LanguageScreen extends StatelessWidget {
                   ),
                   onPressed: () async {
                       await ShareReference.setLanguage(l);
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         AnimationUtils.slideTBWithFade(NameScreen())
                       );

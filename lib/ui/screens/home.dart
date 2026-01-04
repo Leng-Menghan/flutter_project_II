@@ -91,7 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorTheme.secondary,
-        title: Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
+        title: Row(
+          children: [
+            Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
+            const SizedBox(width: 10),
+            Image.asset("assets/logo.png", height: 40,),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -159,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: Center(
-                      child: Text("There is no transaction, Today!", style: textTheme.titleMedium?.copyWith(color: colorTheme.onSurface),),
+                      child: Text(language.noTransactionToday, style: TextStyle(color: Colors.grey)),
                     ),
                   )
                 ],

@@ -63,7 +63,7 @@ class AppRoot extends StatefulWidget {
 }
 
 class _AppRootState extends State<AppRoot> {
-  late Locale _locale;
+  Locale? _locale;
   int _currentTabIndex = 0;
 
   @override

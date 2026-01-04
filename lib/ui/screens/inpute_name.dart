@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import '../../data/share_reference.dart';
 import '../../data/sqlite.dart';
+import '../../l10n/app_localization.dart';
 import '../../main.dart';
 import '../../utils/animations_util.dart';
 import '../widgets/cus_textfield.dart';
 import '../widgets/input_decoration.dart';
 import '../../models/user.dart';
-
 
 class NameScreen extends StatefulWidget {
   const NameScreen({super.key});
@@ -20,6 +21,21 @@ class _NameScreenState extends State<NameScreen> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   AmountType? amountType;
+  Locale? locale;
+  
+  @override
+  void initState() {
+    _loadLocale();
+    super.initState();
+  }
+
+  void _loadLocale() async {
+    String lang = await ShareReference.readLanguage(); 
+    setState(() {
+      locale = lang == "en" ? const Locale("en") : const Locale("km");
+    });
+  }
+
   void onPress() async{
     if (_formKey.currentState!.validate()) {
       String name = "${firstNameController.text.trim()} ${lastNameController.text.trim()}".trim();
@@ -45,21 +61,23 @@ class _NameScreenState extends State<NameScreen> {
   } 
 
   String? validateName(String? value) {
+    final language = AppLocalizations.of(context)!;
     if (value == null || value.isEmpty) {
-      return "Please enter your name";
+      return language.nameRequired;
     }
-    if (value.length > 20) {
-      return "Can not more than 20 characters";
+    if (value.length > 15) {
+      return language.nameLength;
     }
     if (value.contains(' ')) {
-      return "Name cannot contain spaces";
+      return language.noSpace;
     }
     return null;
   }
   
   String? validateAmountType(AmountType? amountType) {
+    final language = AppLocalizations.of(context)!;
     if (amountType == null) {
-      return "Please select amount type";
+      return language.amountTypeRequired;
     }
     return null;
   }
@@ -74,78 +92,98 @@ class _NameScreenState extends State<NameScreen> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-        child: Column(
-          children: [
-            Center(child: Text("Smart Financial", textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF2F7E79), fontSize: 30, fontWeight: FontWeight.w900),)),
-            SizedBox(height: 25),
-            Center(child: Image.asset("assets/onBoarding.png", height: 150,)),
-            SizedBox(height: 30),
-            Expanded(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomTextField(label: "FIRST NAME", hintText: "Enter your first name", text: firstNameController, validator: validateName,),
-                    const SizedBox(height: 20),
-                    CustomTextField(label: "LAST NAME", hintText: "Enter your last name", text: lastNameController, validator: validateName,),
-                    const SizedBox(height: 20),
-                    Text("AMOUNT TYPE", style:TextStyle(color: colorTheme.onSurface),),
-                    const SizedBox(height: 10),
-                    DropdownButtonFormField<AmountType>(
-                      initialValue: amountType,
-                      validator: validateAmountType,
-                      icon: Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Icon(Icons.keyboard_arrow_down),
-                      ),
-                      decoration: customInputDecoration(),
-                      hint: Text("Select Amount Type", style:const TextStyle(fontWeight: FontWeight.normal, color: Colors.grey, fontSize: 14),),
-                      items: AmountType.values.map((at) {
-                        return DropdownMenuItem<AmountType>(
-                          value: at,
-                          child: Row(
-                            children: [
-                              Image.asset(at.imageAsset, height: 20,),
-                              const SizedBox(width: 10),
-                              Text(at.name, style: textTheme.titleMedium),
-                            ],
+    if (locale == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+    return Localizations(
+      locale: locale!,
+      delegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      child: Builder(
+        builder: (context) {
+          final language = AppLocalizations.of(context)!;
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              child: Column(
+                children: [
+                  Center(child: Text("Smart Finance", textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF2F7E79), fontSize: 30, fontWeight: FontWeight.w900),)),
+                  SizedBox(height: 25),
+                  Center(child: Image.asset("assets/logo.png", height: 150,)),
+                  SizedBox(height: 30),
+                  Expanded(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomTextField(label: language.firstName, hintText: language.enterYourFirstName, text: firstNameController, validator: validateName,),
+                          const SizedBox(height: 20),
+                          CustomTextField(label: language.lastName, hintText: language.enterYourFirstName, text: lastNameController, validator: validateName),
+                          const SizedBox(height: 20),
+                          Text(language.amountType.toUpperCase(), style:TextStyle(color: colorTheme.onSurface),),
+                          const SizedBox(height: 10),
+                          DropdownButtonFormField<AmountType>(
+                            initialValue: amountType,
+                            validator: validateAmountType,
+                            icon: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Icon(Icons.keyboard_arrow_down),
+                            ),
+                            decoration: customInputDecoration(),
+                            hint: Text(language.selectAmountType, style:const TextStyle(fontWeight: FontWeight.normal, color: Colors.grey, fontSize: 14),),
+                            items: AmountType.values.map((at) {
+                              return DropdownMenuItem<AmountType>(
+                                value: at,
+                                child: Row(
+                                  children: [
+                                    Image.asset(at.imageAsset, height: 20,),
+                                    const SizedBox(width: 10),
+                                    Text(at.name, style: textTheme.titleMedium),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              if (value != null) {
+                                setState(() {
+                                  amountType = value;
+                                });
+                              }
+                            },
                           ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() {
-                            amountType = value;
-                          });
-                        }
-                      },
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),          
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  disabledBackgroundColor:  Color(0xFF2F7E79),
-                  backgroundColor: Color(0xFF2F7E79),
-                  padding: EdgeInsets.all(18),
-                  shadowColor: Color(0xFF63B5AF),
-                  elevation: 10
-                ),
-                onPressed: onPress, 
-                child: Text("Get Started", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold))
+                  ),          
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        disabledBackgroundColor:  Color(0xFF2F7E79),
+                        backgroundColor: Color(0xFF2F7E79),
+                        padding: EdgeInsets.all(18),
+                        shadowColor: Color(0xFF63B5AF),
+                        elevation: 10
+                      ),
+                      onPressed: onPress, 
+                      child: Text(language.getStarted, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold))
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+      )
     );
   }
+
 }

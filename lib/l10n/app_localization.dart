@@ -98,18 +98,6 @@ abstract class AppLocalizations {
     Locale('km'),
   ];
 
-  /// No description provided for @name.
-  ///
-  /// In en, this message translates to:
-  /// **'Name'**
-  String get name;
-
-  /// No description provided for @inputName.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your name'**
-  String get inputName;
-
   /// No description provided for @amountType.
   ///
   /// In en, this message translates to:
@@ -745,6 +733,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There is no data'**
   String get nodata;
+
+  /// No description provided for @overviewTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview Transaction'**
+  String get overviewTransaction;
+
+  /// No description provided for @overBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Over Budget !'**
+  String get overBudget;
+
+  /// No description provided for @firstName.
+  ///
+  /// In en, this message translates to:
+  /// **'FIRST NAME'**
+  String get firstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In en, this message translates to:
+  /// **'LAST NAME'**
+  String get lastName;
+
+  /// No description provided for @enterYourLastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your last name'**
+  String get enterYourLastName;
+
+  /// No description provided for @enterYourFirstName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your first name'**
+  String get enterYourFirstName;
+
+  /// No description provided for @nameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your name'**
+  String get nameRequired;
+
+  /// No description provided for @noSpace.
+  ///
+  /// In en, this message translates to:
+  /// **'Can not contain spaces'**
+  String get noSpace;
+
+  /// No description provided for @nameLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Can not more than 15 characters'**
+  String get nameLength;
+
+  /// No description provided for @amountTypeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select amount type'**
+  String get amountTypeRequired;
+
+  /// No description provided for @editName.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Name'**
+  String get editName;
+
+  /// No description provided for @yourFirstName.
+  ///
+  /// In en, this message translates to:
+  /// **'Your First Name'**
+  String get yourFirstName;
+
+  /// No description provided for @yourLastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Last Name'**
+  String get yourLastName;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate

@@ -46,11 +46,13 @@ class CategoryBudgetGoal extends StatelessWidget {
                   ),
                 ),
               title: Text(
-                "${category.getLabel(language)}${spent>goal ? " : Over Budget !!!" : ""}",
-                style: textTheme.titleLarge?.copyWith(
-                  color: spent>goal ? Colors.red: colorTheme.onSurface
-                ),
+                category.getLabel(language),
+                style: textTheme.titleLarge?.copyWith(color: colorTheme.onSurface),
               ),
+              subtitle:spent>goal ? Text(
+                language.overBudget,
+                style: TextStyle(color: spent>goal ? Colors.red: colorTheme.onSurface),
+              ) : null,
             ),
           ),
           Expanded(

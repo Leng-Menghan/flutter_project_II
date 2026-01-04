@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localization.dart';
 import '../../models/category.dart';
 import '../../models/budget_goal.dart';
 import '../widgets/cus_outline_button.dart';
@@ -53,19 +54,21 @@ class _CreateBudgetState extends State<CreateBudget> {
   }
 
   String? validateAmount(String? value) {
+    final language = AppLocalizations.of(context)!;
     if (value == null || value.isEmpty) {
-      return "The amount needs to be filled";
+      return language.amountRequired;
     }
     double? amount = double.tryParse(value);
     if ( amount == null || amount <= 0) {
-      return "Value must be positive number";
+      return language.amountPositive;
     }
     return null;
   }
 
   String? validateCategory(Category? value) {
+    final language = AppLocalizations.of(context)!;
     if (value == null) {
-      return "Please select category";
+      return language.selectCategory;
     }
     return null;
   }
@@ -75,6 +78,7 @@ class _CreateBudgetState extends State<CreateBudget> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final textTheme = theme.textTheme;
+    final language = AppLocalizations.of(context)!;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -82,7 +86,7 @@ class _CreateBudgetState extends State<CreateBudget> {
         toolbarHeight: 80,
         leading: IconButton(onPressed: () => Navigator.pop(context) , icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white,)),
         title: Text(
-          "Create Budget Goal",
+          language.createBudgetGoal,
           style: textTheme.displaySmall?.copyWith(color: colors.onPrimary),
         ),
         centerTitle: true,
@@ -106,8 +110,8 @@ class _CreateBudgetState extends State<CreateBudget> {
               child: Column(
                 children: [
                   CustomTextField(
-                    label: "AMOUNT", 
-                    hintText: "Enter Amount", 
+                    label: language.amount.toUpperCase(), 
+                    hintText: language.enterAmount, 
                     text: _amountController, 
                     validator: validateAmount, 
                     isNumInput: true,
@@ -124,7 +128,7 @@ class _CreateBudgetState extends State<CreateBudget> {
               ),
             ),
             const Spacer(),
-            CustomOutlineButton(name: "Save", onPress: _saveBudget, isLong: true,),
+            CustomOutlineButton(name: language.save, onPress: _saveBudget, isLong: true,),
           ],
         ),
       ),

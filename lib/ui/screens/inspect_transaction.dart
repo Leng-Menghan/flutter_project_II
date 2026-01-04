@@ -15,7 +15,8 @@ class InspectTransaction extends StatelessWidget {
     final colors = theme.colorScheme;
     final textTheme = theme.textTheme;
     final language = AppLocalizations.of(context)!;
-
+    final locale = Localizations.localeOf(context).toString();
+    
     return Scaffold(
       backgroundColor: colors.secondary,
       appBar: AppBar(
@@ -28,7 +29,7 @@ class InspectTransaction extends StatelessWidget {
           icon: Icon(Icons.arrow_back_ios_rounded, color: colors.onPrimary),
         ),
         title: Text(
-          "Overview Transaction",
+          language.overviewTransaction,
           style: textTheme.displaySmall?.copyWith(color: colors.onPrimary),
         ),
       ),
@@ -56,7 +57,7 @@ class InspectTransaction extends StatelessWidget {
                     children: [
                       Text(transaction.title, style: textTheme.displaySmall),
                       Text(
-                        transaction.isExpense ? "Expense" : "Income",
+                        transaction.isExpense ? language.expense : language.income,
                         style: textTheme.titleMedium?.copyWith(
                           color: transaction.isExpense ? Colors.red : Colors.green,
                         ),
@@ -69,13 +70,13 @@ class InspectTransaction extends StatelessWidget {
             const SizedBox(height: 20),
             _buildRow(
               context,
-              label: "Category",
+              label: language.category,
               value: transaction.category.getLabel(language),
             ),
             const SizedBox(height: 10),
             _buildRow(
               context,
-              label: "Amount",
+              label: language.amount,
               value:
                   "${transaction.isExpense ? '-' : '+'}$amountLabel${NumberFormat("#,##0.00").format(transaction.amount)}",
               valueColor: transaction.isExpense ? Colors.red : Colors.green,
@@ -83,8 +84,8 @@ class InspectTransaction extends StatelessWidget {
             const SizedBox(height: 10),
             _buildRow(
               context,
-              label: "Date",
-              value: DateFormat('EEE, dd MMM yyyy').format(transaction.date),
+              label: language.date,
+              value: DateFormat('EEE, dd MMM yyyy', locale).format(transaction.date),
             ),
           ],
         ),

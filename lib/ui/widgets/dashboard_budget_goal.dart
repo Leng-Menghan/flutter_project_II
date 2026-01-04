@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../l10n/app_localization.dart';
+
 class DashboardBudgetGoal extends StatelessWidget {
   final String amountLabel;
   final double goal;
@@ -12,6 +14,8 @@ class DashboardBudgetGoal extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
+    final language = AppLocalizations.of(context)!;
+
     double remain = goal - spent;
     return Card(
       color: colorTheme.primary,
@@ -54,12 +58,12 @@ class DashboardBudgetGoal extends StatelessWidget {
                     ),
                   ),
                   goal == 0 ? 
-                    Text("No Goal", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary))
+                    Text(language.noGoal, style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary))
                     :
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(spent > goal ? "Over" : "Remain", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
+                        Text(spent > goal ? language.over : language.remain, style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
                         Text("$amountLabel ${NumberFormat("#,##0").format(remain)}", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
                       ],
                     )
@@ -75,7 +79,7 @@ class DashboardBudgetGoal extends StatelessWidget {
                     Row(
                       children: [
                         Icon(Icons.arrow_circle_down_rounded, color: colorTheme.onPrimary.withAlpha(180)),
-                        Text(" Total Goal", style: textTheme.titleLarge?.copyWith(color: colorTheme.onPrimary.withAlpha(180))),
+                        Text(" ${language.totalGoal}", style: textTheme.titleLarge?.copyWith(color: colorTheme.onPrimary.withAlpha(180))),
                       ],
                     ),
                     const SizedBox(height: 5),
@@ -89,7 +93,7 @@ class DashboardBudgetGoal extends StatelessWidget {
                     Row(
                       children: [
                         Icon(Icons.arrow_circle_up_rounded, color: colorTheme.onPrimary.withAlpha(180)),
-                        Text(" Total Spent", style: textTheme.titleLarge?.copyWith(color: colorTheme.onPrimary.withAlpha(180))),
+                        Text(" ${language.totalSpent}", style: textTheme.titleLarge?.copyWith(color: colorTheme.onPrimary.withAlpha(180))),
                       ],
                     ),
                     const SizedBox(height: 5),

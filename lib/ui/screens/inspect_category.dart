@@ -76,6 +76,7 @@ class _InspectCategoryState extends State<InspectCategory> {
     final colors = theme.colorScheme;
     final textTheme = theme.textTheme;
     final language = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).toString();
     
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -83,7 +84,7 @@ class _InspectCategoryState extends State<InspectCategory> {
         toolbarHeight: 80,
         leading: IconButton(onPressed: () => Navigator.pop<bool>(context, isChanged) , icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white,)),
         title: Text(
-          "Category Overview",
+          language.overviewCategory,
           style: textTheme.displaySmall?.copyWith(color: colors.onPrimary),
         ),
         centerTitle: true,
@@ -123,7 +124,7 @@ class _InspectCategoryState extends State<InspectCategory> {
               child: transactionsByCategory.isEmpty
                   ? Center(
                       child: Text(
-                        "No transactions found",
+                        language.nodata,
                         style: textTheme.titleMedium?.copyWith(
                           color: Colors.grey,
                         ),
@@ -151,7 +152,7 @@ class _InspectCategoryState extends State<InspectCategory> {
                                 children: [
                                   const Divider(height: 20),
                                   Text(
-                                    DateFormat('EEE, MMMM d yyyy').format(tx.date),
+                                    DateFormat('EEE, MMMM d yyyy', locale).format(tx.date),
                                     style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ],

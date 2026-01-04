@@ -9,12 +9,6 @@ class AppLocalizationsKm extends AppLocalizations {
   AppLocalizationsKm([String locale = 'km']) : super(locale);
 
   @override
-  String get name => 'ឈ្មោះ';
-
-  @override
-  String get inputName => 'បំពេញឈ្មោះរបស់អ្នក';
-
-  @override
   String get amountType => 'ប្រភេទរូបិយប័ណ្ណ ';
 
   @override
@@ -213,10 +207,10 @@ class AppLocalizationsKm extends AppLocalizations {
   String get selectAmountType => 'ជ្រើសរើសប្រភេទរូបិយប័ណ្ណ';
 
   @override
-  String get totalGoal => 'គោលដៅចំណាយសរុប';
+  String get totalGoal => 'គោលដៅចំណាយ';
 
   @override
-  String get totalSpent => 'បានចំណាយសរុប';
+  String get totalSpent => 'បានចំណាយ';
 
   @override
   String get goal => 'គោលដៅ';
@@ -331,4 +325,46 @@ class AppLocalizationsKm extends AppLocalizations {
 
   @override
   String get nodata => 'គ្មានទិន្នន័យ';
+
+  @override
+  String get overviewTransaction => 'ទិដ្ឋភាពទូទៅនៃប្រតិបត្តិការ';
+
+  @override
+  String get overBudget => 'លើសចំនួនទឹកប្រាក់';
+
+  @override
+  String get firstName => 'នាមត្រកូល';
+
+  @override
+  String get lastName => 'នាម';
+
+  @override
+  String get enterYourLastName => 'បំពេញនាមរបស់អ្នក';
+
+  @override
+  String get enterYourFirstName => 'បំពេញនាមត្រកូលរបស់អ្នក';
+
+  @override
+  String get nameRequired => 'សូមបំពេញនាមត្រកូល ឬនាមរបស់អ្នក';
+
+  @override
+  String get noSpace => 'មិនអាចមានដកឃ្លា';
+
+  @override
+  String get nameLength => 'នាមត្រកូល​​ ឬនាមមិនអាចលើសពី ១៥​ តួអក្សរ';
+
+  @override
+  String get amountTypeRequired => 'សូមជ្រើសរើសប្រភេទរូបិយប័ណ្ណ';
+
+  @override
+  String get editName => 'កែប្រែឈ្មោះ';
+
+  @override
+  String get yourFirstName => 'នាមត្រកូលរបស់អ្នក';
+
+  @override
+  String get yourLastName => 'នាមរបស់អ្នក';
+
+  @override
+  String get cancel => 'បោះបង់';
 }

@@ -9,12 +9,6 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get name => 'Name';
-
-  @override
-  String get inputName => 'Enter your name';
-
-  @override
   String get amountType => 'Amount type';
 
   @override
@@ -331,4 +325,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nodata => 'There is no data';
+
+  @override
+  String get overviewTransaction => 'Overview Transaction';
+
+  @override
+  String get overBudget => 'Over Budget !';
+
+  @override
+  String get firstName => 'FIRST NAME';
+
+  @override
+  String get lastName => 'LAST NAME';
+
+  @override
+  String get enterYourLastName => 'Enter your last name';
+
+  @override
+  String get enterYourFirstName => 'Enter your first name';
+
+  @override
+  String get nameRequired => 'Please enter your name';
+
+  @override
+  String get noSpace => 'Can not contain spaces';
+
+  @override
+  String get nameLength => 'Can not more than 15 characters';
+
+  @override
+  String get amountTypeRequired => 'Please select amount type';
+
+  @override
+  String get editName => 'Edit Name';
+
+  @override
+  String get yourFirstName => 'Your First Name';
+
+  @override
+  String get yourLastName => 'Your Last Name';
+
+  @override
+  String get cancel => 'Cancel';
 }

@@ -76,7 +76,8 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     }
   }
 
-  String? validateTitle(String? value, AppLocalizations language) {
+  String? validateTitle(String? value) {
+    final language = AppLocalizations.of(context)!;
     if (value == null || value.isEmpty) {
       return language.titleRequired;
     }
@@ -86,7 +87,8 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     return null;
   }
 
-  String? validateAmount(String? value, AppLocalizations language) {
+  String? validateAmount(String? value) {
+    final language = AppLocalizations.of(context)!;
     if (value == null || value.isEmpty) {
       return language.amountRequired;
     }
@@ -96,14 +98,16 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     }
     return null;
   }
-  String? validateCategory(Category? value, AppLocalizations language) {
+  String? validateCategory(Category? value) {
+    final language = AppLocalizations.of(context)!;
     if (value == null) {
       return language.categoryRequired;
     }
     return null;
   }
 
-  String? validateDate(String? value, AppLocalizations language){
+  String? validateDate(String? value){
+    final language = AppLocalizations.of(context)!;
     if(selectedDate == null){
       return language.dateRequired;
     }
@@ -169,14 +173,14 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                       label: language.title.toUpperCase(),
                       hintText: language.enterTitle,
                       text: titleController,
-                      validator: (value) => validateTitle(value, language),
+                      validator: validateTitle,
                       islength: true,
                     ),
                     const SizedBox(height: 5),
                     CustomDropdownCategory(
                       selectedCategory: selectedCategory,
                       key: ValueKey(type),
-                      validator: (value) => validateCategory(value, language),
+                      validator: validateCategory,
                       categoryList: categories, 
                       onSelectCategory: (value){
                         setState(() {
@@ -191,11 +195,11 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                       text: amountController,
                       isNumInput: true,
                       prefix: "${widget.amountLabel} ",
-                      validator: (value)=> validateAmount(value, language),
+                      validator: validateAmount,
                     ),
                     const SizedBox(height: 20),
                     CustomeSelectDate(
-                      validator: (value) => validateDate(value, language), 
+                      validator: validateDate, 
                       hintText: language.selectDate, 
                       label: language.date.toUpperCase(), 
                       onTap: selectDate, 

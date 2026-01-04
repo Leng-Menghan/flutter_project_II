@@ -1,6 +1,4 @@
 {
-  "name": "Name",
-  "inputName": "Enter your name",
   "amountType": "Amount type",
   "getStarted": "Get Started",
   "goodAfternoon": "Good Afternoon",
@@ -106,5 +104,19 @@
   "editIncome": "Edit Income",
   "editExpense": "Edit Expense",
   "noTransactionToday": "There is no transaction, Today!",
-  "nodata" : "There is no data"
+  "nodata" : "There is no data",
+  "overviewTransaction": "Overview Transaction",
+  "overBudget" : "Over Budget !",
+  "firstName": "FIRST NAME",
+  "lastName":"LAST NAME",
+  "enterYourLastName": "Enter your last name",
+  "enterYourFirstName": "Enter your first name",
+  "nameRequired": "Please enter your name",
+  "noSpace": "Can not contain spaces",
+  "nameLength": "Can not more than 15 characters",
+  "amountTypeRequired" : "Please select amount type",
+  "editName": "Edit Name",
+  "yourFirstName": "Your First Name",
+  "yourLastName": "Your Last Name",
+  "cancel" : "Cancel"
 }

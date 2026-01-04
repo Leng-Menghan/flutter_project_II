@@ -97,7 +97,13 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorTheme.secondary,
-        title: Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
+        title: Row(
+          children: [
+            Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
+            const SizedBox(width: 10),
+            Image.asset("assets/logo.png", height: 40,),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -135,7 +141,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            "Category",
+                            language.category,
                             style: textTheme.titleLarge?.copyWith(
                               color: colorTheme.onSurface
                             ),
@@ -144,7 +150,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
                         Expanded(
                           flex: 1,
                           child: Text(
-                            "Goal",
+                            language.goal,
                             textAlign: TextAlign.center,
                             style: textTheme.titleLarge?.copyWith(
                               color: colorTheme.onSurface
@@ -154,7 +160,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
                         Expanded(
                           flex: 1,
                           child: Text(
-                            "Spent",
+                            language.spent,
                             textAlign: TextAlign.end,
                             style: textTheme.titleLarge?.copyWith(
                               color: colorTheme.onSurface
@@ -200,10 +206,10 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
                                         ..showSnackBar(
                                         SnackBar(
                                           duration: Duration(seconds: 3),
-                                          content: Text("Budget Goal deleted"),
+                                          content: Text(language.budgetGoalDeleted),
                                           behavior: SnackBarBehavior.floating,
                                           action: SnackBarAction(
-                                            label: 'Undo',
+                                            label: language.undo,
                                             onPressed: () => _onUndo(goal, index)
                                           ),
                                         )
@@ -228,10 +234,8 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 40),
                           child: Center(
                             child: Text(
-                              "No budget goals yet",
-                              style: textTheme.titleMedium?.copyWith(
-                                color:colorTheme.onSurface,
-                              ),
+                              language.noBudgetGoalYet,
+                              style:TextStyle(color: Colors.grey)
                             ),
                           ),
                         ),

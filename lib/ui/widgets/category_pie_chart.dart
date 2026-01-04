@@ -111,7 +111,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
         ) : Padding(
           padding: EdgeInsets.only(top: 20),
           child: Center(
-            child: Text(language.nodata, style: TextStyle(color: Colors.grey),),
+            child: Text(language.nodata, style: textTheme.titleLarge?.copyWith(color: Colors.grey),),
           ),
         )
       ],

@@ -125,9 +125,12 @@ class _StatisticScreenState extends State<StatisticScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorTheme.secondary,
-        title: Text(
-          "Smart Finance",
-          style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),
+        title: Row(
+          children: [
+            Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
+            const SizedBox(width: 10),
+            Image.asset("assets/logo.png", height: 40,),
+          ],
         ),
       ),
       backgroundColor: colorTheme.secondary,

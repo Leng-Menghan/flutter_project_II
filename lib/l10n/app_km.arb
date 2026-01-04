@@ -1,6 +1,4 @@
 {
-  "name": "ឈ្មោះ",
-  "inputName": "បំពេញឈ្មោះរបស់អ្នក",
   "amountType": "ប្រភេទរូបិយប័ណ្ណ ",
   "getStarted": "ចាប់ផ្តើម",
   "goodAfternoon": "ទិវាសួស្ដី",
@@ -67,8 +65,8 @@
   "language": "ភាសា",
   "selectLanguage": "ជ្រើសរើសភាសា",
   "selectAmountType": "ជ្រើសរើសប្រភេទរូបិយប័ណ្ណ",
-  "totalGoal": "គោលដៅចំណាយសរុប",
-  "totalSpent": "បានចំណាយសរុប",
+  "totalGoal": "គោលដៅចំណាយ",
+  "totalSpent": "បានចំណាយ",
   "goal": "គោលដៅ",
   "spent": "បានចំណាយ",
   "amount": "ចំនួនទឹកប្រាក់",
@@ -106,5 +104,19 @@
   "editIncome": "កែប្រែចំណូល",
   "editExpense": "កែប្រែចំណាយ",
   "noTransactionToday": "គ្មានប្រតិបត្តិការនៅថ្ងៃនេះ",
-  "nodata" : "គ្មានទិន្នន័យ"
+  "nodata" : "គ្មានទិន្នន័យ",
+  "overviewTransaction": "ទិដ្ឋភាពទូទៅនៃប្រតិបត្តិការ",
+  "overBudget": "លើសចំនួនទឹកប្រាក់",
+  "firstName": "នាមត្រកូល",
+  "lastName":"នាម",
+  "enterYourLastName": "បំពេញនាមរបស់អ្នក",
+  "enterYourFirstName": "បំពេញនាមត្រកូលរបស់អ្នក",
+  "nameRequired": "សូមបំពេញនាមត្រកូល ឬនាមរបស់អ្នក",
+  "noSpace": "មិនអាចមានដកឃ្លា",
+  "nameLength": "នាមត្រកូល​​ ឬនាមមិនអាចលើសពី ១៥​ តួអក្សរ",
+  "amountTypeRequired" : "សូមជ្រើសរើសប្រភេទរូបិយប័ណ្ណ",
+  "editName": "កែប្រែឈ្មោះ",
+  "yourFirstName": "នាមត្រកូលរបស់អ្នក",
+  "yourLastName": "នាមរបស់អ្នក",
+  "cancel" : "បោះបង់"
 }

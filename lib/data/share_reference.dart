@@ -28,7 +28,6 @@ class ShareReference {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('name') != null ? true : false;
   }
-
   static Future<Map<String, dynamic>> readUserInfo() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? name = prefs.getString('name');
@@ -43,5 +42,10 @@ class ShareReference {
       'amountType' : amountType,
       'language' : language
     };
+  }
+  static Future<String> readLanguage() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? lang = prefs.getString('language');
+    return lang!;
   }
 }

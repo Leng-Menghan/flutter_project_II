@@ -49,16 +49,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final TextEditingController lastNameController = TextEditingController();
     firstNameController.text = oldName.trim().split(' ').first;
     lastNameController.text = oldName.trim().split(' ').last;
-
+    final language = AppLocalizations.of(context)!;
     String? validateName(String? value) {
       if (value == null || value.isEmpty) {
-        return "Please enter your name";
+        return language.nameRequired;
       }
-      if (value.length > 20) {
-        return "Can not more than 20 characters";
+      if (value.length > 15) {
+        return language.nameLength;
       }
       if (value.contains(' ')) {
-        return "Name cannot contain spaces";
+        return language.noSpace;
       }
       return null;
     }
@@ -70,22 +70,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10)
           ),
-          title: Text("Edit Name"),
+          title: Text(language.editName),
           content: SingleChildScrollView(
             child: Form(
               key: formKey,
               child: Column(
                 children: [
                   CustomTextField(
-                    label: "FISRT NAME",
-                    hintText: "Your First Name",
+                    label: language.firstName,
+                    hintText: language.yourFirstName,
                     text: firstNameController, 
                     validator: validateName
                   ),
                   const SizedBox(height: 20),
                   CustomTextField(
-                    label: "LAST NAME",
-                    hintText: "Your Last Name",
+                    label: language.lastName,
+                    hintText: language.yourLastName,
                     text: lastNameController, 
                     validator: validateName
                   ),
@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(), 
-              child: Text("Cancel"),
+              child: Text(language.cancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -105,18 +105,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Navigator.of(context).pop<String>(name); 
                 }
               },
-              child: Text("Save"),
+              child: Text(language.save),
             ),
           ],
         );
       },
     );
   }
-  
-  Widget get profile => widget.user.profileImage == "" ? 
-    Center(child: Text(widget.user.getProfileLabel(), style: TextStyle(fontSize: 90, fontWeight: FontWeight.bold)))
-    :
-    Image.asset(widget.user.profileImage);
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +152,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         color: Colors.white,
                         border: Border.all(width: 3, color: colorTheme.primary)
                       ),
-                      child: profile,
+                      child: Center(
+                        child: Text(widget.user.getProfileLabel(), style: TextStyle(fontSize: 90, fontWeight: FontWeight.bold))
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../l10n/app_localization.dart';
 import '../../models/user.dart';
 import '../../utils/animations_util.dart';
 import '../widgets/cus_outline_button.dart';
@@ -99,6 +100,8 @@ class _InspectStatisticState extends State<InspectStatistic> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final textTheme = theme.textTheme;
+    final language = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).toString();
     return Scaffold(
       backgroundColor: colors.secondary,
 
@@ -112,7 +115,7 @@ class _InspectStatisticState extends State<InspectStatistic> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
         ),
         title: Text(
-          DateFormat('EEE, MMMM d yyyy').format(date),
+          DateFormat('EEE, MMMM d yyyy', locale).format(date),
           style: textTheme.titleLarge?.copyWith(color: Colors.white),
         ),
       ),
@@ -128,7 +131,7 @@ class _InspectStatisticState extends State<InspectStatistic> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total:', style: textTheme.titleLarge),
+                Text(language.total, style: textTheme.titleLarge),
                 Text(
                   '$amountLabel${NumberFormat("#,##0.00").format(total)}',
                   style: textTheme.titleLarge?.copyWith(
@@ -172,7 +175,7 @@ class _InspectStatisticState extends State<InspectStatistic> {
                   ),
                 ),
                 const Spacer(),
-                CustomOutlineButton(name: "Add", onPress: onCreate),
+                CustomOutlineButton(name: language.add, onPress: onCreate),
                 const Spacer(),
                 IconButton(
                   onPressed: onNextDay,
