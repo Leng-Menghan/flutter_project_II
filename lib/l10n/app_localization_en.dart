@@ -367,4 +367,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get statistic => 'Statistic';
+
+  @override
+  String get budgetGoal => 'Budget Goal';
 }

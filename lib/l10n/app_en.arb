@@ -118,5 +118,8 @@
   "editName": "Edit Name",
   "yourFirstName": "Your First Name",
   "yourLastName": "Your Last Name",
-  "cancel" : "Cancel"
+  "cancel" : "Cancel",
+  "home": "Home",
+  "statistic": "Statistic",
+  "budgetGoal": "Budget Goal"
 }

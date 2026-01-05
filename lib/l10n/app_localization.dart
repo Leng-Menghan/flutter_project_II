@@ -817,6 +817,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @statistic.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistic'**
+  String get statistic;
+
+  /// No description provided for @budgetGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Goal'**
+  String get budgetGoal;
 }
 
 class _AppLocalizationsDelegate

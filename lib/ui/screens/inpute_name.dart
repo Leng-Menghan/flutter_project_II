@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../../data/share_reference.dart';
 import '../../data/sqlite.dart';
 import '../../l10n/app_localization.dart';
 import '../../main.dart';
 import '../../utils/animations_util.dart';
+import '../app_root.dart';
 import '../widgets/cus_textfield.dart';
 import '../widgets/input_decoration.dart';
 import '../../models/user.dart';
 
 class NameScreen extends StatefulWidget {
-  const NameScreen({super.key});
+  final ValueChanged<Language> onSelectLanguage;
+  const NameScreen({super.key, required this.onSelectLanguage});
 
   @override
   State<NameScreen> createState() => _NameScreenState();
@@ -21,29 +22,16 @@ class _NameScreenState extends State<NameScreen> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   AmountType? amountType;
-  Locale? locale;
-  
-  @override
-  void initState() {
-    _loadLocale();
-    super.initState();
-  }
 
-  void _loadLocale() async {
-    String lang = await ShareReference.readLanguage(); 
-    setState(() {
-      locale = lang == "en" ? const Locale("en") : const Locale("km");
-    });
-  }
 
   void onPress() async{
     if (_formKey.currentState!.validate()) {
       String name = "${firstNameController.text.trim()} ${lastNameController.text.trim()}".trim();
       await ShareReference.setName(name);
       await ShareReference.setAmountType(amountType!);
+
       Map<String, dynamic> userInfo = await ShareReference.readUserInfo();
       await Sqlite.initDatabase();
-      
       User user = User(
         name: name,
         profileImage: "",
@@ -55,27 +43,25 @@ class _NameScreenState extends State<NameScreen> {
 
       Navigator.pushReplacement(
         context,
-        AnimationUtils.scaleWithFade(AppRoot(user: user))
+        AnimationUtils.scaleWithFade(AppRoot(user: user, onChangeLanguage: widget.onSelectLanguage,))
       );
     }
   } 
 
-  String? validateName(String? value) {
-    final language = AppLocalizations.of(context)!;
+  String? validateName(String? value, AppLocalizations language) {
     if (value == null || value.isEmpty) {
       return language.nameRequired;
     }
     if (value.length > 15) {
       return language.nameLength;
     }
-    if (value.contains(' ')) {
+    if (value.trim().contains(' ')) {
       return language.noSpace;
     }
     return null;
   }
   
-  String? validateAmountType(AmountType? amountType) {
-    final language = AppLocalizations.of(context)!;
+  String? validateAmountType(AmountType? amountType, AppLocalizations language) {
     if (amountType == null) {
       return language.amountTypeRequired;
     }
@@ -92,21 +78,6 @@ class _NameScreenState extends State<NameScreen> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
-    if (locale == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-    return Localizations(
-      locale: locale!,
-      delegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      child: Builder(
-        builder: (context) {
           final language = AppLocalizations.of(context)!;
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -124,15 +95,15 @@ class _NameScreenState extends State<NameScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomTextField(label: language.firstName, hintText: language.enterYourFirstName, text: firstNameController, validator: validateName,),
+                          CustomTextField(label: language.firstName, hintText: language.enterYourFirstName, text: firstNameController, validator: (value) => validateName(value, language),),
                           const SizedBox(height: 20),
-                          CustomTextField(label: language.lastName, hintText: language.enterYourFirstName, text: lastNameController, validator: validateName),
+                          CustomTextField(label: language.lastName, hintText: language.enterYourFirstName, text: lastNameController, validator: (value) => validateName(value, language)),
                           const SizedBox(height: 20),
                           Text(language.amountType.toUpperCase(), style:TextStyle(color: colorTheme.onSurface),),
                           const SizedBox(height: 10),
                           DropdownButtonFormField<AmountType>(
                             initialValue: amountType,
-                            validator: validateAmountType,
+                            validator: (value) => validateAmountType(value, language),
                             icon: Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: Icon(Icons.keyboard_arrow_down),
@@ -180,9 +151,6 @@ class _NameScreenState extends State<NameScreen> {
                 ],
               ),
             ),
-          );
-        }
-      )
     );
   }
 

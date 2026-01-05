@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (value.length > 15) {
         return language.nameLength;
       }
-      if (value.contains(' ')) {
+      if (value.trim().contains(' ')) {
         return language.noSpace;
       }
       return null;

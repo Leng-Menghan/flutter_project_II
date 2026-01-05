@@ -118,5 +118,8 @@
   "editName": "កែប្រែឈ្មោះ",
   "yourFirstName": "នាមត្រកូលរបស់អ្នក",
   "yourLastName": "នាមរបស់អ្នក",
-  "cancel" : "បោះបង់"
+  "cancel" : "បោះបង់",
+  "home": "ទំព័រដើម",
+  "statistic": "ស្ថិតិ",
+  "budgetGoal": "គោលដៅ"
 }

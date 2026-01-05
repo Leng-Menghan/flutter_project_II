@@ -43,9 +43,4 @@ class ShareReference {
       'language' : language
     };
   }
-  static Future<String> readLanguage() async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? lang = prefs.getString('language');
-    return lang!;
-  }
 }

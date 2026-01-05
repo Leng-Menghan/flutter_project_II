@@ -5,8 +5,10 @@ import '../../models/user.dart';
 import '../../utils/animations_util.dart';
 import 'inpute_name.dart';
 class LanguageScreen extends StatelessWidget {
+  final ValueChanged<Language> onSelectLanguage;
   const LanguageScreen({
     super.key,
+    required this.onSelectLanguage
   });
 
   @override
@@ -45,9 +47,11 @@ class LanguageScreen extends StatelessWidget {
                   ),
                   onPressed: () async {
                       await ShareReference.setLanguage(l);
-                      Navigator.push(
+                      onSelectLanguage(l);
+
+                      Navigator.pushReplacement(
                         context,
-                        AnimationUtils.slideTBWithFade(NameScreen())
+                        AnimationUtils.slideTBWithFade(NameScreen(onSelectLanguage: onSelectLanguage,))
                       );
                   }, 
                   child: Row(

@@ -367,4 +367,13 @@ class AppLocalizationsKm extends AppLocalizations {
 
   @override
   String get cancel => 'បោះបង់';
+
+  @override
+  String get home => 'ទំព័រដើម';
+
+  @override
+  String get statistic => 'ស្ថិតិ';
+
+  @override
+  String get budgetGoal => 'គោលដៅ';
 }
