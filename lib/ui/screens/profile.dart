@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../l10n/app_localization.dart';
 import '../../models/user.dart';
 import '../widgets/cus_textfield.dart';
 import '../widgets/input_decoration.dart';
+import 'take_picture.dart';
 
 class ProfileScreen extends StatefulWidget {
   final User user;
@@ -17,12 +21,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController amountTypeController = TextEditingController();
   late String name;
   late Language userLanguage;
-
+  late Directory appDir;
+  late String profileImagePath;
   @override
   void initState(){
     super.initState();
+    _initAppDir();
     name = widget.user.name;
     userLanguage = widget.user.preferredLanguage;
+    profileImagePath = widget.user.profileImage;
+  }
+
+  Future<void> _initAppDir() async {
+    appDir = await getApplicationDocumentsDirectory();
   }
 
   void onPressEdit(String oldName) async {
@@ -51,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     lastNameController.text = oldName.trim().split(' ').last;
     final language = AppLocalizations.of(context)!;
     String? validateName(String? value) {
-      if (value == null || value.isEmpty) {
+      if (value == null || value.trim().isEmpty) {
         return language.nameRequired;
       }
       if (value.length > 15) {
@@ -112,6 +123,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
+  
+  Future<void> openCamera() async {
+    final cameras = await availableCameras();
+    final image = await Navigator.push<XFile>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TakePictureScreen(cameras: cameras),
+      ),
+    );
+    if (image != null) {
+      if (widget.user.profileImage.isNotEmpty) {
+        final oldFile = File(widget.user.profileImage);
+        if(await oldFile.exists()){
+          await oldFile.delete();
+        }
+      }
+
+      final fileName = 'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final savedImage = await File(image.path).copy('${appDir.path}/$fileName');
+      await widget.user.setImage(savedImage.path);
+      setState(() {
+        profileImagePath = savedImage.path;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,17 +180,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Center(child: Text(language.profile, style: textTheme.displaySmall?.copyWith(color: colorTheme.onPrimary))),
                   SizedBox(height: 40),
                   Center(
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(width: 3, color: colorTheme.primary)
-                      ),
-                      child: Center(
-                        child: Text(widget.user.getProfileLabel(), style: TextStyle(fontSize: 90, fontWeight: FontWeight.bold))
-                      ),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 200,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(width: 3, color: colorTheme.primary),
+                            image: profileImagePath != "" ? DecorationImage(image: FileImage(File(profileImagePath)), fit: BoxFit.cover) : null,
+                          ),
+                          child: profileImagePath == "" ? Center(child: Text(widget.user.getProfileLabel(), style: TextStyle(fontSize: 90, fontWeight: FontWeight.bold))) : null,
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          right: 10,
+                          left: 10,
+                          child: Row(
+                            mainAxisAlignment:profileImagePath != "" ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end,
+                            children: [
+                              if (profileImagePath != "") CircleAvatar(
+                                backgroundColor: colorTheme.primary,
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await widget.user.setImage("");
+                                    setState(() {
+                                      profileImagePath = "";
+                                    });
+                                  },
+                                  icon: const Icon(Icons.delete),
+                                  color: Colors.white,    
+                                ),
+                              ),
+                              CircleAvatar(
+                                backgroundColor: colorTheme.primary,
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await openCamera();
+                                  },
+                                  icon: const Icon(Icons.photo_camera),
+                                  color: Colors.white,  
+                                ),
+                              ),
+                            ],
+                          )
+                        )
+                      ],
                     ),
                   ),
                   const SizedBox(height: 8),

@@ -27,7 +27,7 @@ void main() async {
     Map<String, dynamic> userInfo = await ShareReference.readUserInfo();
     user = User(
       name:userInfo['name'],
-      profileImage: "",
+      profileImage: userInfo['image'],
       preferredLanguage: userInfo['language'],
       preferredAmountType: userInfo['amountType'],
       transactions: await Sqlite.getTransactions(),

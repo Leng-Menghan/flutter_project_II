@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
@@ -16,7 +18,10 @@ class Header extends StatelessWidget {
       children: [
         Row(
           children: [
-            CircleAvatar(child: Text(profileLabel, style: textTheme.headlineMedium)),
+            CircleAvatar(
+              backgroundImage: profileLabel.length != 2 ? FileImage(File(profileLabel)) : null,
+              child: profileLabel.length == 2 ? Text(profileLabel , style: textTheme.headlineMedium) : null,
+            ),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

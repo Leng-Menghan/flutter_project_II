@@ -125,13 +125,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorTheme.secondary,
-        title: Row(
-          children: [
-            Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
-            const SizedBox(width: 10),
-            Image.asset("assets/logo.png", height: 40,),
-          ],
-        ),
+        title: Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
       ),
       backgroundColor: colorTheme.secondary,
       body: SingleChildScrollView(
@@ -143,7 +137,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                 greeting: widget.user.getLocalizedGreeting(language),
                 userName: widget.user.name,
                 onPress: onCreate,
-                profileLabel: widget.user.getProfileLabel(),
+                profileLabel: widget.user.profileImage == ""? widget.user.getProfileLabel() : widget.user.profileImage,
               ),
             ),
             Container(

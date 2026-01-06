@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../../data/share_reference.dart';
 import '../../models/user.dart';
 import '../../utils/animations_util.dart';
 import 'inpute_name.dart';
+
 class LanguageScreen extends StatelessWidget {
   final ValueChanged<Language> onSelectLanguage;
   const LanguageScreen({
@@ -30,7 +30,7 @@ class LanguageScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(child: Image.asset("assets/logo.png", height: 150,)),
-            Center(child: Text("Smart Finance", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.w900),)),
+            Center(child: Text("Smart Finance", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.w900),)),
             SizedBox(height: 40),
             Text("ភាសា / LANGUAGE", style: TextStyle(color: Colors.white),),
             SizedBox(height: 10),

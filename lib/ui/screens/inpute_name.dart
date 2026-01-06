@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../data/share_reference.dart';
 import '../../data/sqlite.dart';
 import '../../l10n/app_localization.dart';
-import '../../main.dart';
 import '../../utils/animations_util.dart';
 import '../app_root.dart';
 import '../widgets/cus_textfield.dart';
@@ -29,7 +28,7 @@ class _NameScreenState extends State<NameScreen> {
       String name = "${firstNameController.text.trim()} ${lastNameController.text.trim()}".trim();
       await ShareReference.setName(name);
       await ShareReference.setAmountType(amountType!);
-
+      await ShareReference.setImage("");
       Map<String, dynamic> userInfo = await ShareReference.readUserInfo();
       await Sqlite.initDatabase();
       User user = User(
@@ -49,7 +48,7 @@ class _NameScreenState extends State<NameScreen> {
   } 
 
   String? validateName(String? value, AppLocalizations language) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.trim().isEmpty) {
       return language.nameRequired;
     }
     if (value.length > 15) {

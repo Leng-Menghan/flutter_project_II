@@ -97,13 +97,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorTheme.secondary,
-        title: Row(
-          children: [
-            Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
-            const SizedBox(width: 10),
-            Image.asset("assets/logo.png", height: 40,),
-          ],
-        ),
+        title: Text("Smart Finance", style: textTheme.displayMedium?.copyWith(color: colorTheme.onPrimary),),
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -127,7 +121,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Header(greeting: widget.user.getLocalizedGreeting(language), userName: widget.user.name, onPress: _addBudget, profileLabel: widget.user.getProfileLabel(),),
+                  Header(greeting: widget.user.getLocalizedGreeting(language), userName: widget.user.name, onPress: _addBudget, profileLabel: widget.user.profileImage == ""? widget.user.getProfileLabel() : widget.user.profileImage),
                   const SizedBox(height: 10),
                   DashboardBudgetGoal(goal: totalGoal, spent: totalSpent, amountLabel: amountLabel,),
                   const SizedBox(height: 20),
