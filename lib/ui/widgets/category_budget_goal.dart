@@ -58,7 +58,7 @@ class CategoryBudgetGoal extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Text(
-              "$amountLabel${NumberFormat("#,##0").format(goal)}",
+              "$amountLabel${NumberFormat("#,##0.##").format(goal)}",
               textAlign: TextAlign.center,
               style: textTheme.titleLarge?.copyWith(
                 color: spent > goal ? Colors.red : Colors.blue,
@@ -68,7 +68,7 @@ class CategoryBudgetGoal extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Text(
-              "- $amountLabel${NumberFormat("#,##0").format(spent)}",
+              "- $amountLabel${NumberFormat("#,##0.##").format(spent)}",
               textAlign: TextAlign.end,
               style: textTheme.titleLarge?.copyWith(
                 color: Colors.red,

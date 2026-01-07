@@ -76,7 +76,6 @@ class User {
       if (txDate.isAfter(endDate)) return false; 
       return true;
     }).toList();
-    list.sort((a, b) => a.date.compareTo(b.date));
     return list;
   }
 
@@ -112,7 +111,6 @@ class User {
       if (category != null && t.category != category) return false;
       return true;
     }).toList();
-    list.sort((a, b) => a.date.compareTo(b.date));
     return list;
   }
 
@@ -135,7 +133,6 @@ class User {
       if(type != null && t.type != type) return false;
       return true;
     }).toList();
-    list.sort((a, b) => a.date.compareTo(b.date));
     return list;
   }
 

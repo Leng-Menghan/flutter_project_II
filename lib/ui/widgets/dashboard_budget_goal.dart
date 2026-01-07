@@ -64,7 +64,7 @@ class DashboardBudgetGoal extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(spent > goal ? language.over : language.remain, style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
-                        Text("$amountLabel ${NumberFormat("#,##0").format(remain)}", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
+                        Text("$amountLabel ${NumberFormat("#,##0.00").format(remain)}", style: textTheme.headlineLarge?.copyWith(color: colorTheme.onPrimary)),
                       ],
                     )
                 ],

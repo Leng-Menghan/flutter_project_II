@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  List<Transaction> get transactions => filter == null ? transactionsToday : transactionsToday.where((t) => filter == TransactionType.income ? t.isIncome : t.isExpense).toList();
+  List<Transaction> get transactions => filter == null ? transactionsToday.reversed.toList() : transactionsToday.where((t) => filter == TransactionType.income ? t.isIncome : t.isExpense).toList().reversed.toList();
   double get totalToday => filter == null ? transactions.fold(0.0, (sum, t) => sum + (t.isExpense ? -t.amount : t.amount)) : transactions.fold(0.0, (sum, t) => sum + t.amount);
   String get sign => filter == TransactionType.income ? '+' : filter == TransactionType.expense ? '-' : '';
 
@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if(newTransaction != null){
       await widget.user.addTransaction(newTransaction);
       setState(() {
-        transactionsToday.insert(0, newTransaction);
+        transactionsToday.add(newTransaction);
       });
     }
   }
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void onUndo(Transaction t) async{
     await widget.user.addTransaction(t);
     setState(() {
-      transactionsToday.insert(0, t);
+      transactionsToday.add(t);
     });
   }
   String get amountLabel => widget.user.preferredAmountType == AmountType.dollar ? "\$" : "៛";

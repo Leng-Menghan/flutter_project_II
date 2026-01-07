@@ -26,7 +26,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
 
   @override
   void initState(){
-    budgetGoals = widget.user.getBudgetGoal(year: _date.year, month: _date.month);
+    budgetGoals = widget.user.getBudgetGoal(year: _date.year, month: _date.month).reversed.toList();
     super.initState();
   }
   double get totalGoal => budgetGoals.fold(0.0, (sum, b) => sum + b.goalAmount);
@@ -41,7 +41,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
     if (result != null) {
       await widget.user.addBudgetGoal(result);
       setState(() {
-        budgetGoals.add(result);
+        budgetGoals.insert(0, result);
       });
     }
   }
